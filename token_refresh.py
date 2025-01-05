@@ -58,7 +58,7 @@ class TokenRefresh:
         except json.JSONDecodeError:
             print("Erro ao decodificar o JSON em 'bruto'.")
             access_token = None
-
+        
         return {
             "conta": conta,
             "refresh_token": refresh_token,
