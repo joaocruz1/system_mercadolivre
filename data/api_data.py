@@ -18,8 +18,9 @@ class APIData:
        self.token = token_refresh.token
 
        conta = self.token['conta']
-       acess_token = self.token['refresh_token']
+       acess_token = self.token['access_token']
        refresh_token = self.token['refresh_token']
+       print(f"Conta {conta}, Acess Token {acess_token}, Refresh Token {refresh_token}")
 
        return conta, acess_token, refresh_token
        
