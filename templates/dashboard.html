@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Menu lateral -->
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <header class="header">
+                <h1>Welcome to the Dashboard</h1>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Admin</span>
+                </div>
+            </header>
+
+            <!-- Cards -->
+            <section class="cards">
+                <div class="card">
+                    <h3>Total Products</h3>
+                    <p>349</p>
+                    <span class="card-icon"><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <div class="card">
+                    <h3>New Sales</h3>
+                    <p>44</p>
+                    <span class="card-icon"><i class="fas fa-user-plus"></i></span>
+                </div>
+                <div class="card">
+                    <h3>Active ADS</h3>
+                    <p>89</p>
+                    <span class="card-icon"><i class="fas fa-chart-bar"></i></span>
+                </div>
+                <div class="card">
+                    <h3>Feedback</h3>
+                    <p>46%</p>
+                    <span class="card-icon"><i class="fas fa-comments"></i></span>
+                </div>
+            </section>
+
+            <!-- Gráficos e tabelas -->
+            <section class="dashboard-data">
+                <div class="chart">
+                    <h3>Monthly Performance</h3>
+                    <div class="chart-placeholder">[Chart Placeholder]</div>
+                </div>
+                <div class="table">
+                    <h3>Recent Activity</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Activity</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Logged in</td>
+                                <td>01/07/2025</td>
+                            </tr>
+                            <tr>
+                                <td>Jane Smith</td>
+                                <td>Purchased Product</td>
+                                <td>01/06/2025</td>
+                            </tr>
+                            <tr>
+                                <td>Emily Brown</td>
+                                <td>Updated Profile</td>
+                                <td>01/05/2025</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

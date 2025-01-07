@@ -17,10 +17,8 @@ class FlaskRoute:
 
         @self.app.route('/dashboard')
         def dashboard():
-            if 'user' in session:
-                return render_template('dashboard.html')
-            else:
-                return render_template('login.html')
+            return self.login_validation('dashboard.html')
+
 
         @self.app.route('/login', methods=['POST'])
         def login():
@@ -50,5 +48,10 @@ class FlaskRoute:
                 print(f"Erro inesperado no login: {e}")
                 return jsonify({"error": "Erro no servidor"}), 500
             
-    def login_validation(self):
-        pass
+
+    def login_validation(self,page):
+
+        if 'user' in session:
+            return render_template(page)
+        else:
+            return render_template('login.html')
