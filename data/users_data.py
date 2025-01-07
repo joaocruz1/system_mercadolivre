@@ -7,6 +7,7 @@ from data.api_data import APIData
 
 @dataclass
 class UserLogin:
+
     spreadsheet_id2: str = None
     credentials_file: str = "credenciais.json"
     shop: str = None
@@ -50,10 +51,11 @@ class UserLogin:
                     self.shop = user_shop
                     login_api = APIData()
                     login_api.datarows()
-                    return jsonify({"message": "Login realizado com sucesso!"}), 200
+                    return True
                 else:
-                    return jsonify({"error": "Essa loja não consta em nosso sistema."}), 400
-        return jsonify({"error": "E-mail ou senha incorretos."}), 400
+                    raise ValueError("Essa loja não consta em nosso sistema.")
+    
+            raise ValueError("E-mail ou senha incorretos.")
 
 
     def add_user(self):
