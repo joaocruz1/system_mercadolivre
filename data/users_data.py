@@ -33,28 +33,28 @@ class UserLogin:
         # Retorna todos os registros da planilha como uma lista de dicionários
         return self.sheet.get_all_records()
 
-    def login(self):
-        # Obter dados da requisição HTTP
-        user_email = request.json.get("email")
-        user_password = request.json.get("password")
-        user_shop = request.json.get("shop")
+    def login(self, data):
+        # Obter dados do dicionário
+        user_email = data.get("email")
+        user_password = data.get("password")
+        user_shop = data.get("shop")
 
         if not user_email or not user_password or not user_shop:
             return jsonify({"error": "Todos os campos são obrigatórios."}), 400
 
-        users = self.get_users()  # Pega os dados da planilha
+        users = self.get_users()
 
-        # Verificar se o e-mail, senha e loja correspondem a algum usuário
         for user in users:
             if user_email == user['email'] and user_password == user['password']:
                 if user_shop == user['shop']:
                     self.shop = user_shop
                     login_api = APIData()
-                    login_api.datarows()  # Executa a lógica relacionada à API
+                    login_api.datarows()
                     return jsonify({"message": "Login realizado com sucesso!"}), 200
                 else:
                     return jsonify({"error": "Essa loja não consta em nosso sistema."}), 400
         return jsonify({"error": "E-mail ou senha incorretos."}), 400
+
 
     def add_user(self):
         # Obter dados da requisição HTTP

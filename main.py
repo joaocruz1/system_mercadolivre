@@ -11,21 +11,26 @@ user_login = UserLogin(spreadsheet_id2=spreadsheet_id2)
 def home():
     return render_template('login.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
+    try:
         email = request.form['email']
         password = request.form['password']
         shop = request.form['shop']
 
-        # Mock request data as JSON to pass to login function
-        request.json = {"email": email, "password": password, "shop": shop}
-        return user_login.login()
-    return render_template('login.html')
+        # Armazena os dados em uma variável
+        data = {"email": email, "password": password, "shop": shop}
+
+        # Realiza o login com os dados
+        return user_login.login(data)
+    except Exception as e:
+        print(f"Erro no login: {e}")
+        return jsonify({"error": "Erro no servidor"}), 500
+
 
 
 if __name__  == '__main__':
-    app.run()
+    app.run(debug=True)
     
     
     
