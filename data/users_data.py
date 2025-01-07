@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from flask import request, jsonify
 from data.api_data import APIData
+
 
 @dataclass
 class UserLogin:
-   
     spreadsheet_id2: str = None
     credentials_file: str = "credenciais.json"
     shop: str = None
-    users: list = None
     scope: list = None
 
     def __post_init__(self):
@@ -29,67 +29,50 @@ class UserLogin:
         # Abrir a planilha pelo ID
         self.sheet = self.client.open_by_key(self.spreadsheet_id2).sheet1
 
-        
-
     def get_users(self):
+        # Retorna todos os registros da planilha como uma lista de dicionários
+        return self.sheet.get_all_records()
 
-        data = self.sheet.get_all_records()  # Retorna todos os registros da planilha como uma lista de dicionários
-
-        return data
-    
     def login(self):
-        
-        self.user_email = input("Digite seu e-mail: ").strip()
-        self.user_password = input("Digite sua senha: ").strip()
-        self.user_shop = input("Digite o nome da loja: ").strip()
+        # Obter dados da requisição HTTP
+        user_email = request.json.get("email")
+        user_password = request.json.get("password")
+        user_shop = request.json.get("shop")
+
+        if not user_email or not user_password or not user_shop:
+            return jsonify({"error": "Todos os campos são obrigatórios."}), 400
 
         users = self.get_users()  # Pega os dados da planilha
 
-        # Verificar se o e-mail e a senha correspondem a algum usuário
+        # Verificar se o e-mail, senha e loja correspondem a algum usuário
         for user in users:
-            if self.user_email == user['email'] and self.user_password == user['password']:
-                if self.user_shop == user['shop']:
-                    print("\nLogin realizado com sucesso!")
-                    self.shop = self.user_shop
-                    self.loginapi = APIData()
-                    self.loginapi.datarows()
-                    
-                    return True
+            if user_email == user['email'] and user_password == user['password']:
+                if user_shop == user['shop']:
+                    self.shop = user_shop
+                    login_api = APIData()
+                    login_api.datarows()  # Executa a lógica relacionada à API
+                    return jsonify({"message": "Login realizado com sucesso!"}), 200
                 else:
-                    print("Essa Loja não consta em nosso sistema")
-            else:
-                print("\nE-mail ou senha incorretos. Tente novamente.")
-                return False
-            
+                    return jsonify({"error": "Essa loja não consta em nosso sistema."}), 400
+        return jsonify({"error": "E-mail ou senha incorretos."}), 400
 
-    def adduser(self):
-       
-        print("\n--- Adicionar Novo Usuário ---")
-
-        # Solicitar os dados do novo usuário
-        self.new_nicknameuser = input("Digite o nome desse usuário").strip()
-        self.new_email = input("Digite o e-mail do novo usuário: ").strip()
-        self.new_password = input("Digite a senha do novo usuário: ").strip()
-        self.new_adm = input("true ou false ").strip()
-
-
+    def add_user(self):
+        # Obter dados da requisição HTTP
+        new_nickname = request.json.get("nickname")
+        new_email = request.json.get("email")
+        new_password = request.json.get("password")
+        new_adm = request.json.get("adm")
 
         # Verificar se todos os campos foram preenchidos
-        if not self.new_nicknameuser or not self.new_email or not self.new_password or not self.new_adm:
-            print("Erro: Todos os campos devem ser preenchidos.")
-            return
+        if not new_nickname or not new_email or not new_password or new_adm is None:
+            return jsonify({"error": "Todos os campos devem ser preenchidos."}), 400
 
         # Adicionar os dados como uma nova linha na planilha
         try:
-            self.sheet.append_row([self.new_nicknameuser, self.new_email, self.new_password, self.shop, self.new_adm])
-            print("Novo usuário adicionado com sucesso!")
-
+            self.sheet.append_row([new_nickname, new_email, new_password, self.shop, str(new_adm).lower()])
+            return jsonify({"message": "Novo usuário adicionado com sucesso!"}), 201
         except Exception as e:
-            print(f"Erro ao adicionar usuário: {e}")
+            return jsonify({"error": f"Erro ao adicionar usuário: {str(e)}"}), 500
 
-        def removeuser(self):
-            pass
-
-       
-
-
+    def remove_user(self):
+        return jsonify({"message": "Função de remoção ainda não implementada."}), 501
