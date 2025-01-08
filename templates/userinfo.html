@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='userinfo.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Menu lateral -->
+        <aside class="sidebar">
+            <h2>User Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-user-circle"></i> Profile</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <header class="header">
+                <h1>User Information</h1>
+            </header>
+
+            <!-- User Info -->
+            <section class="user-info-section">
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <h2>{{userinfo['name']}}</h2>
+                        <p>{{userinfo['email']}}</p>
+                        <p>{{userinfo['address']}}</p>
+                    </div>
+                </div>
+
+                <div class="user-stats">
+                    <div class="stat">
+                        <h3>Total Orders</h3>
+                        <p>125</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Last Login</h3>
+                        <p>01/07/2025</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit Profile -->
+            <section class="edit-profile-section">
+                <div class="form-card">
+                    <h3>Edit Profile</h3>
+                    <form>
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" value="John Doe">
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="john.doe@example.com">
+
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" value="+1 234 567 890">
+
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

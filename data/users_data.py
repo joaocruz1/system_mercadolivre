@@ -2,8 +2,7 @@ from dataclasses import dataclass
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from flask import request, jsonify
-
-
+from datetime import datetime
 
 @dataclass
 class UserServices:
@@ -45,15 +44,20 @@ class UserServices:
 
         users = self.get_users()
 
-        for user in users:
+        # Procura pelo usuário na lista de usuários
+        for idx, user in enumerate(users, start=2):  # A primeira linha é o cabeçalho, então começa no índice 2
             if user_email == user['email'] and user_password == user['password']:
                 if user_shop == user['shop']:
                     self.shop = user_shop
+                    # Aqui vamos atualizar a coluna 'F' para registrar a data e hora do login
+                    login_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    self.sheet.update_cell(idx, 6, login_time)  # Coluna 'F' é a 6ª coluna
                     return True
                 else:
                     raise ValueError("Essa loja não consta em nosso sistema.")
     
-            raise ValueError("E-mail ou senha incorretos.")
+        raise ValueError("E-mail ou senha incorretos.")
+
 
 
     def add_user(self):
