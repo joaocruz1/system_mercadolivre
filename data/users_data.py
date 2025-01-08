@@ -2,11 +2,11 @@ from dataclasses import dataclass
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from flask import request, jsonify
-from data.api_data import APIData
+
 
 
 @dataclass
-class UserLogin:
+class UserServices:
 
     spreadsheet_id2: str = None
     credentials_file: str = "credenciais.json"
@@ -49,8 +49,6 @@ class UserLogin:
             if user_email == user['email'] and user_password == user['password']:
                 if user_shop == user['shop']:
                     self.shop = user_shop
-                    login_api = APIData()
-                    login_api.datarows()
                     return True
                 else:
                     raise ValueError("Essa loja não consta em nosso sistema.")

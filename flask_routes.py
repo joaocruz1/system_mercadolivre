@@ -1,11 +1,12 @@
 from flask import Flask, request, redirect, render_template, url_for, session, jsonify
-from data.users_data import UserLogin
+from data.users_data import UserServices
 from dataclasses import dataclass
+from services import Services
 
 @dataclass
 class FlaskRoute:
     app: Flask
-    user_login: UserLogin
+    user_login: UserServices
 
     def __post_init__(self):
         self.register_routes()
@@ -33,6 +34,8 @@ class FlaskRoute:
                 login_success = self.user_login.login(data)
 
                 if login_success:
+                    login_api = Services()
+                    login_api.infouser()
                     session['user'] = data
                     return redirect(url_for('dashboard'))
                 else:

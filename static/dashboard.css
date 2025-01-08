@@ -130,6 +130,34 @@
     margin-top: 20px;
 }
 
+.user-info {
+    list-style: none; /* Remove o estilo de lista (bolinha) do <ul> ou <ol> */
+    padding: 0; /* Remove espaçamento interno */
+    margin: 0; /* Remove margens */
+}
+
+.user-info li {
+    list-style: none; /* Remove a bolinha do <li> */
+}
+
+.user-info li a {
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: #4A00E0; /* Define uma cor discreta */
+    font-family: Arial, sans-serif; /* Define uma fonte básica */
+    font-size: 16px; /* Ajusta o tamanho da fonte */
+    padding: 5px 10px; /* Adiciona espaçamento interno */
+    border: 1px solid transparent; /* Adiciona borda invisível */
+    border-radius: 5px; /* Arredonda os cantos */
+    transition: all 0.3s ease; /* Adiciona suavidade ao hover */
+}
+
+.user-info li a:hover {
+    color: rgb(85, 49, 156); /* Cor do texto no hover */
+    text-decoration: none; /* Mantém o texto sem sublinhado */
+    background-color: rgba(74, 0, 224, 0.1); /* Fundo levemente colorido no hover */
+}
+
+
 .chart, .table {
     background: #fff;
     padding: 20px;
