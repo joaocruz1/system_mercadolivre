@@ -51,8 +51,9 @@ class UserServices:
                     self.shop = user_shop
                     # Aqui vamos atualizar a coluna 'F' para registrar a data e hora do login
                     login_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    date_login = user['login']
                     self.sheet.update_cell(idx, 6, login_time)  # Coluna 'F' é a 6ª coluna
-                    return True
+                    return True, date_login
                 else:
                     raise ValueError("Essa loja não consta em nosso sistema.")
     

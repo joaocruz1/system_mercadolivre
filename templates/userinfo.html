@@ -43,33 +43,26 @@
 
                 <div class="user-stats">
                     <div class="stat">
-                        <h3>Total Orders</h3>
-                        <p>125</p>
+                        <h3>Shop</h3>
+                        <p>{{usershop['shop']}}</p>
                     </div>
                     <div class="stat">
                         <h3>Last Login</h3>
-                        <p>01/07/2025</p>
+                        <p>{{datelogin}}</p>
+                    </div>
+                </div>
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <h2>{{userinfo['name']}}</h2>
+                        <p>{{userinfo['email']}}</p>
+                        <p>{{userinfo['address']}}</p>
                     </div>
                 </div>
             </section>
-
-            <!-- Edit Profile -->
-            <section class="edit-profile-section">
-                <div class="form-card">
-                    <h3>Edit Profile</h3>
-                    <form>
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" value="John Doe">
-
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="john.doe@example.com">
-
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone" value="+1 234 567 890">
-
-                        <button type="submit">Save Changes</button>
-                    </form>
-                </div>
+                
             </section>
         </main>
     </div>
