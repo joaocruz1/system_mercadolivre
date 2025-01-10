@@ -7,8 +7,10 @@ import requests
 class Services:
 
   conta:str
-  acess_token:str
+  access_token:str
   refresh_token:str
+  id_user:str = None
+  products: list = None
 
   def __init__(self):
       
@@ -16,10 +18,10 @@ class Services:
     tokens = token_refresh.token
 
     self.conta = tokens['conta']
-    self.acess_token = tokens['access_token']
+    self.access_token = tokens['access_token']
     self.refresh_token = tokens['refresh_token']
 
-    print(f"Conta {self.conta}, Acess Token {self.acess_token}, Refresh Token {self.refresh_token}")
+    print(f"Conta {self.conta}, Acess Token {self.access_token}, Refresh Token {self.refresh_token}")
 
 
 
@@ -28,18 +30,38 @@ class Services:
 
     payload = {}
     headers = {
-      'Authorization': f'Bearer {self.acess_token}'
+      'Authorization': f'Bearer {self.access_token}'
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
     data = response.json()
 
-    id_user = data.get('id')
+    self.id_user = data.get('id')
     first_name = data.get('first_name')
     last_name = data.get('last_name')
     email = data.get('email')
     address = data.get('address', {}).get('address')  
     state = data.get('address', {}).get('state')
 
-    return {"id" : id_user, "name" : first_name, "last_name" : last_name, "email": email, "address": address, "state": state}
+    return {"id" : self.id_user, "name" : first_name, "last_name" : last_name, "email": email, "address": address, "state": state}
   
+  def search_products(self):
+    
+    url = f"https://api.mercadolibre.com/users/{self.id_user}/items/search"
+
+    payload = {}
+    headers = {
+      'Authorization': f'Bearer {self.access_token}'
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    data = response.json()
+    self.products = data.get('results', [])  
+    quantity_items = len(self.products)
+
+    return quantity_items
+
+
+
+    

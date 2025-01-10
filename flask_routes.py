@@ -67,8 +67,9 @@ class FlaskRoute:
             # Obtém as informações do usuário (simulando uma consulta externa)
             login_api = Services()
             session['userinfo_ml'] = login_api.infouser()
+            quantity_products = login_api.search_products()
             self.user_info = session.get('userinfo_ml')
-            return render_template('dashboard.html', userinfo=self.user_info)
+            return render_template('dashboard.html', userinfo=self.user_info, quantity_products=quantity_products)
         
         # Rota de informações do usuário
         @self.app.route('/userinfo')
