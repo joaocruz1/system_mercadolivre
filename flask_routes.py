@@ -11,6 +11,7 @@ class FlaskRoute:
     user_infoml: str = None
     user_info: str = None
     date_login: str = None
+    user_adm: bool = None
 
     def __post_init__(self):
         # Registra as rotas
@@ -24,7 +25,7 @@ class FlaskRoute:
             if 'userinfo' not in session:
                 # Se não estiver logado e a requisição não for para login ou erro, redireciona
                 if request.endpoint not in ['login', 'autherror']:
-                    return redirect(url_for('login'))
+                    return render_template('login.html')
                 
         @self.app.route('/')
         def index():
@@ -48,10 +49,10 @@ class FlaskRoute:
                 data = {"email": email, "password": password, "shop": shop}
 
                 # Verifica se o login foi bem-sucedido
-                login_success, self.date_login = self.user_login.login(data)
+                login_success, self.user_info = self.user_login.login(data)
 
                 if login_success:
-                    session['userinfo'] = data  # Armazena os dados do usuário na sessão
+                    session['userinfo'] = self.user_info  # Armazena os dados do usuário na sessão
                     return redirect(url_for('dashboard'))
                 else:
                     return redirect(url_for('autherror'))
@@ -71,13 +72,13 @@ class FlaskRoute:
         def dashboard():
 
             # Obtém as informações do usuário (simulando uma consulta externa)
-            self.user_info = session.get('userinfo_ml')
+            self.user_info_ml = session.get('userinfo_ml')
             session['userinfo_ml'] = self.services_api.infouser()
             
             quantity_products = self.services_api.search_products()
             quantity_sales = self.services_api.import_sales()
 
-            return render_template('dashboard.html', userinfo=self.user_info, quantity_products=quantity_products, quantity_sales=quantity_sales)
+            return render_template('dashboard.html', userinfo=self.user_info_ml, quantity_products=quantity_products, quantity_sales=quantity_sales)
         
         
 
@@ -85,11 +86,22 @@ class FlaskRoute:
         # Rota de informações do usuário
         @self.app.route('/userinfo')
         def userinfo():
-
-            # Acessa as informações do usuário já logado (presumido)
-            session['userinfoml']= self.services_api.infouser()
-            self.user_infoml = session.get('userinfoml')
-            self.user_info = session.get('userinfo')
-
-            return render_template('userinfo.html', userinfo=self.user_infoml, datelogin=self.date_login, usershop=self.user_info)
+            return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
+        
+        @self.app.route('/users')
+        def users():
+            usersinfo = self.user_login.consult_users()
+            return render_template('users.html', usersinfo=usersinfo)
+        
+        @self.app.route('/check-session')
+        def check_session():
+            if session:
+                return {key: session[key] for key in session}, 200  # Retorna as informações da sessão como JSON
+            else:
+                return "No session data available", 200
+        
+        @self.app.route('/clear-session')
+        def clear_session():
+            session.clear()  # Limpa todos os dados armazenados na sessão
+            return redirect(url_for('home'))  # Redireciona para a página inicial (ou outra página desejada)
 

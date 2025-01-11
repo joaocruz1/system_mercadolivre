@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Associated Users</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='users.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Menu lateral -->
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="/users"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Users Associated with Store</h1>
+                <div class="user-info">
+                    <i class="fas fa-user"></i><li><a href="/userinfo"></a></li>
+                </div>
+            </header>
+
+            <!-- Associated Users -->
+            <section class="associated-users">
+                {% if usersinfo %}
+                {% for user in usersinfo %}
+                    <div class="user-container">
+                        <h3>{{ user['name'] }}</h3>
+                        <p>Email: <strong>{{ user['email'] }}</strong></p>
+
+                        {% if user['adm'] %}
+                            <p class="role adm-role">Administrator</p>
+                        {% else %}
+                            <p class="role mda-role">Moderator</p>
+                        {% endif %}
+
+                        <div class="user-actions">
+                            <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="action-button delete-button"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% else %}
+                    <p>No users associated with this store.</p>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>
