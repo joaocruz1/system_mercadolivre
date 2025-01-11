@@ -81,3 +81,10 @@ class UserServices:
 
     def remove_user(self):
         return jsonify({"message": "Função de remoção ainda não implementada."}), 501
+
+    def true_or_false(self,response):
+        response.lower
+        if response == "sim":
+            return True
+        else:
+            return False

@@ -11,6 +11,7 @@ class Services:
   refresh_token:str
   id_user:str = None
   products: list = None
+  orders: list = None
 
   def __init__(self):
       
@@ -58,9 +59,46 @@ class Services:
 
     data = response.json()
     self.products = data.get('results', [])  
-    quantity_items = len(self.products)
 
-    return quantity_items
+    return len(self.products)
+  
+  def import_sales(self):
+
+    url = f"https://api.mercadolibre.com/orders/search?seller={self.id_user}&tags=mshops"
+
+    payload = {}
+    headers = {
+      'Authorization': f'Bearer {self.access_token}'
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    sellers = response.json()
+    orders = sellers.get('results', [])
+
+    return len(orders)
+  
+  def import_oders(self,orders):
+
+    for order in orders:
+
+      url = f"https://api.mercadolibre.com/orders/{order}"
+
+      payload = {}
+      headers = {
+        'Authorization': f'Bearer {self.access_token}',
+        'x-format-new': ''
+      }
+
+      response = requests.request("GET", url, headers=headers, data=payload)
+      order_info = response.json()
+
+      return order_info
+
+
+      
+
+
 
 
 

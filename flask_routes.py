@@ -7,6 +7,7 @@ from services import Services
 class FlaskRoute:
     app: Flask
     user_login: UserServices
+    services_api: Services
     user_infoml: str = None
     user_info: str = None
     date_login: str = None
@@ -23,7 +24,11 @@ class FlaskRoute:
             if 'userinfo' not in session:
                 # Se não estiver logado e a requisição não for para login ou erro, redireciona
                 if request.endpoint not in ['login', 'autherror']:
-                    return redirect(url_for('home'))
+                    return redirect(url_for('login'))
+                
+        @self.app.route('/')
+        def index():
+            return redirect(url_for('login'))
 
         # Rota inicial de login
         @self.app.route('/login')
@@ -64,20 +69,27 @@ class FlaskRoute:
         # Dashboard do usuário
         @self.app.route('/dashboard')
         def dashboard():
+
             # Obtém as informações do usuário (simulando uma consulta externa)
-            login_api = Services()
-            session['userinfo_ml'] = login_api.infouser()
-            quantity_products = login_api.search_products()
             self.user_info = session.get('userinfo_ml')
-            return render_template('dashboard.html', userinfo=self.user_info, quantity_products=quantity_products)
+            session['userinfo_ml'] = self.services_api.infouser()
+            
+            quantity_products = self.services_api.search_products()
+            quantity_sales = self.services_api.import_sales()
+
+            return render_template('dashboard.html', userinfo=self.user_info, quantity_products=quantity_products, quantity_sales=quantity_sales)
         
+        
+
+
         # Rota de informações do usuário
         @self.app.route('/userinfo')
         def userinfo():
+
             # Acessa as informações do usuário já logado (presumido)
-            login_ml = Services()
-            session['userinfoml']= login_ml.infouser()
+            session['userinfoml']= self.services_api.infouser()
             self.user_infoml = session.get('userinfoml')
             self.user_info = session.get('userinfo')
+
             return render_template('userinfo.html', userinfo=self.user_infoml, datelogin=self.date_login, usershop=self.user_info)
 
