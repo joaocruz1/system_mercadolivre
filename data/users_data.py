@@ -76,6 +76,7 @@ class UserServices:
         for _ , user in enumerate(users, start=2):
 
             usersinfo.append({
+            'id': _,
             'name': user['user'],
             'email': user['email'],
             'adm': user['adm']

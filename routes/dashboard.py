@@ -13,7 +13,7 @@ class DashboardRoute:
         self.register_routes()
 
     def register_routes(self):
-        @self.blueprint.route('/dashboard')
+        @self.blueprint.route('/')
         def dashboard():
             userinfo_ml = session.get('userinfo_ml')
             session['userinfo_ml'] = self.services_api.infouser()

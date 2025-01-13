@@ -13,11 +13,13 @@ class UsersRoute:
         self.register_routes()
     
     def register_routes(self):
+        @self.blueprint.route('/')
+        def users():
+            usersinfo = self.users_service.consult_users()
+            return render_template('users.html', usersinfo=usersinfo, userinfo_ml=session.get('userinfo_ml'))
+
         @self.blueprint.route('/userinfo')
         def userinfo():
             return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
         
-        @self.blueprint.route('/users')
-        def users():
-            usersinfo = self.users_service.consult_users()
-            return render_template('users.html', usersinfo=usersinfo)
+        

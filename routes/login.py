@@ -13,11 +13,11 @@ class LoginRoute:
         self.register_routes()
 
     def register_routes(self):
-        @self.blueprint.route('/login')
+        @self.blueprint.route('/')
         def home():
             return render_template('login.html')
 
-        @self.blueprint.route('/login', methods=['POST'])
+        @self.blueprint.route('/', methods=['POST'])
         def login():
             try:
                 email = request.form['email']

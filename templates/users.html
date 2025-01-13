@@ -29,7 +29,7 @@
             <header class="header">
                 <h1>Users Associated with Store</h1>
                 <div class="user-info">
-                    <i class="fas fa-user"></i><li><a href="/userinfo"></a></li>
+                    <i class="fas fa-user"></i><li><a href="{{ url_for('users.userinfo')}}">{{userinfo_ml['name']}}</a></li>
                 </div>
             </header>
 
@@ -48,7 +48,7 @@
                         {% endif %}
 
                         <div class="user-actions">
-                            <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="action-button edit-button"><i ><a class="fas fa-edit" href="{{ url_for('users.userinfo')}}">Edit</a> </i></button>
                             <button class="action-button delete-button"><i class="fas fa-trash"></i> Delete</button>
                         </div>
                     </div>
