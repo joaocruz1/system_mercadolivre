@@ -33,6 +33,7 @@ class UserServices:
         return self.sheet.get_all_records()
 
     def login(self, data):
+        
         # Obter dados do dicionário
         user_email = data.get("email")
         user_password = data.get("password")

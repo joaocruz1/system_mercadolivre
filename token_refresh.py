@@ -52,6 +52,7 @@ class TokenRefresh:
 
         # Parsear a string JSON contida na chave 'bruto'
         bruto = first_row.get("bruto")
+
         try:
             bruto_data = json.loads(bruto)
             access_token = bruto_data.get("access_token")
