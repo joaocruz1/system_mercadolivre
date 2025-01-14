@@ -85,20 +85,29 @@ class UserServices:
         return usersinfo
 
 
-    def edit_user(self,id):
+    def consult_user(self,id):
         
         users = self.get_users()
 
         for id_user, user in enumerate(users, start=2):
             if(id == id_user):
                 return {
+                    'id' : id_user,
                     'name': user['user'],
                     'email': user['email'],
                     'adm': user['adm']
                 }
 
+    def edit_user(self,id, user_updates):
 
+        users = self.get_users()
 
+        for id_user, user in enumerate(users, start=2):
+            
+            if(id == id_user):
+                self.sheet.update_cell(id_user, 2, user_updates['email'])
+                self.sheet.update_cell(id_user, 1, user_updates['name'])
+                return print('atualizado!')
 
     def true_or_false(self,response):
         response.lower

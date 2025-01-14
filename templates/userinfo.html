@@ -14,7 +14,9 @@
             <h2>User Panel</h2>
             <nav>
                 <ul>
-                    <li><a href="#"><i class="fas fa-user-circle"></i> Profile</a></li>
+                    <li><a href="{{ url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="{{ url_for('users.users') }}"><i class="fas fa-users"></i> Users</a></li>
                     <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
                     <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>

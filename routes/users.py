@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask import Blueprint, flash, render_template, request, redirect, url_for, session, jsonify
 from dataclasses import dataclass
 from data.users_data import UserServices
 
@@ -24,7 +24,21 @@ class UsersRoute:
         
         @self.blueprint.route('/<int:user_id>/edit')
         def useredit(user_id):
-            user_infos = self.users_service.edit_user(user_id)
+            user_infos = self.users_service.consult_user(user_id)
+
             return render_template('useredit.html', userinfo_ml=session.get('userinfo_ml'), user_infos=user_infos)
+        
+        @self.blueprint.route('/<int:user_id>/edit/update', methods=['POST'])
+        def userupdate(user_id):
+            name = request.form['name']
+            email = request.form['email']
+            update = {"name": name, "email": email}
+
+            self.users_service.edit_user(user_id, update)
+
+            # Mensagem flash de sucesso
+            flash("Usuário atualizado com sucesso!", "success")
+
+            return redirect(url_for('users.useredit', user_id=user_id))
 
         

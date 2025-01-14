@@ -11,16 +11,7 @@
     <div class="dashboard-container">
         <!-- Menu lateral -->
         <aside class="sidebar">
-            <h2>Admin Panel</h2>
-            <nav>
-                <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                    <li><a href="{{ url_for('users.users') }}"><i class="fas fa-users"></i> Users</a></li>
-                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
-            </nav>
+            <!-- Conteúdo do menu lateral aqui -->
         </aside>
 
         <!-- Conteúdo principal -->
@@ -29,21 +20,35 @@
             <header class="header">
                 <h1>Edit Client Information</h1>
                 <div class="user-info">
-                    <i class="fas fa-user"></i><li><a href="{{ url_for('users.userinfo')}}">{{ userinfo_ml['name'] }}</a></li>
+                    <i class="fas fa-user"></i>
+                    <li><a href="{{ url_for('users.userinfo') }}">{{ userinfo_ml['name'] }}</a></li>
                 </div>
             </header>
+
+            <!-- Exibir Mensagens de Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-message">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
 
             <!-- Formulário de edição -->
             <section class="edit-client">
                 <h2>Client Details</h2>
-                <form action="{{ url_for('login.login') }}" method="POST" class="edit-client-form">
+                <form action="{{ url_for('users.userupdate', user_id=user_infos['id']) }}" method="POST" class="edit-client-form">
                     <div class="form-group">
                         <label for="client-name">Name</label>
-                        <input type="text" id="client-name" name="client_name" value="{{ user_infos['name'] }}" required>
+                        <input type="text" id="name" name="name" value="{{ user_infos['name'] }}" required>
                     </div>
                     <div class="form-group">
                         <label for="client-email">Email</label>
-                        <input type="email" id="client-email" name="client_email" value="{{ user_infos['email'] }}" required>
+                        <input type="email" id="email" name="email" value="{{ user_infos['email'] }}" required>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn-save">Save</button>
