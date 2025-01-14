@@ -48,7 +48,7 @@
                         {% endif %}
 
                         <div class="user-actions">
-                            <button class="action-button edit-button"><i ><a class="fas fa-edit" href="{{ url_for('users.userinfo')}}">Edit</a> </i></button>
+                            <button class="action-button edit-button"><i ><a class="fas fa-edit" href="{{ url_for('users.useredit', user_id=user['id'])}}">Edit</a> </i></button>
                             <button class="action-button delete-button"><i class="fas fa-trash"></i> Delete</button>
                         </div>
                     </div>

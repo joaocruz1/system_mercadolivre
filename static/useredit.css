@@ -1,0 +1,234 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container principal */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Menu lateral */
+.sidebar {
+    width: 250px;
+    background: #4A00E0;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+
+
+.sidebar nav ul li a:hover {
+    background: #8E2DE2;
+    transform: scale(1.05);
+}
+
+/* Conteúdo principal */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Cabeçalho */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Formulário de edição */
+.edit-client {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.edit-client h2 {
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+    color: #4A00E0;
+    text-align: center;
+}
+
+.edit-client form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edit-client form label {
+    font-weight: bold;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.edit-client form input,
+.edit-client form select,
+.edit-client form textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.edit-client form input:focus,
+.edit-client form select:focus,
+.edit-client form textarea:focus {
+    border-color: #4A00E0;
+    box-shadow: 0 0 5px rgba(74, 0, 224, 0.5);
+}
+
+.edit-client form textarea {
+    resize: none;
+    height: 120px;
+}
+
+.edit-client form .form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.edit-client form .form-actions button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-client form .form-actions .btn-save {
+    background: #4A00E0;
+    color: #fff;
+}
+
+.edit-client form .form-actions .btn-save:hover {
+    background: #8E2DE2;
+    transform: scale(1.05);
+}
+
+.edit-client form .form-actions .btn-cancel {
+    background: #ddd;
+    color: #333;
+}
+
+.edit-client form .form-actions .btn-cancel:hover {
+    background: #bbb;
+    transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .edit-client {
+        padding: 15px;
+    }
+
+    .edit-client form .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.2rem;
+    }
+
+    .edit-client h2 {
+        font-size: 1.4rem;
+    }
+
+    .edit-client form input,
+    .edit-client form textarea {
+        font-size: 0.9rem;
+    }
+
+    .edit-client form .form-actions button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+.edit-client form .form-actions .btn-cancel {
+    background: #f5f5f5;
+    color: #333;
+    padding: 12px 25px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+.edit-client form .form-actions .btn-cancel:hover {
+    background: #e0e0e0;
+    border-color: #bbb;
+    transform: scale(1.05);
+}
+

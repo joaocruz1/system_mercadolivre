@@ -85,6 +85,18 @@ class UserServices:
         return usersinfo
 
 
+    def edit_user(self,id):
+        
+        users = self.get_users()
+
+        for id_user, user in enumerate(users, start=2):
+            if(id == id_user):
+                return {
+                    'name': user['user'],
+                    'email': user['email'],
+                    'adm': user['adm']
+                }
+
 
 
 

@@ -22,4 +22,9 @@ class UsersRoute:
         def userinfo():
             return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
         
+        @self.blueprint.route('/<int:user_id>/edit')
+        def useredit(user_id):
+            user_infos = self.users_service.edit_user(user_id)
+            return render_template('useredit.html', userinfo_ml=session.get('userinfo_ml'), user_infos=user_infos)
+
         
