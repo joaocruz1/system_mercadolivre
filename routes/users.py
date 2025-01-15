@@ -21,13 +21,23 @@ class UsersRoute:
         @self.blueprint.route('/userinfo')
         def userinfo():
             return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
-        
+
+
+        @self.blueprint.route('/<int:user_id>/delete')
+        def userdelete(user_id):
+
+            self.users_service.delete_user(user_id)
+
+            return redirect(url_for('users.users'))
+
+
         @self.blueprint.route('/<int:user_id>/edit')
         def useredit(user_id):
             user_infos = self.users_service.consult_user(user_id)
 
             return render_template('useredit.html', userinfo_ml=session.get('userinfo_ml'), user_infos=user_infos)
-        
+
+
         @self.blueprint.route('/<int:user_id>/edit/update', methods=['POST'])
         def userupdate(user_id):
             name = request.form['name']

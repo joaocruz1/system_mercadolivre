@@ -107,7 +107,16 @@ class UserServices:
             if(id == id_user):
                 self.sheet.update_cell(id_user, 2, user_updates['email'])
                 self.sheet.update_cell(id_user, 1, user_updates['name'])
-                return print('atualizado!')
+    
+    def delete_user(self,id):
+        users = self.get_users()
+
+        for id_user,user in enumerate(users, start=2):
+
+            if(id == id_user):
+                self.sheet.delete_rows(id)
+
+
 
     def true_or_false(self,response):
         response.lower

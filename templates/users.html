@@ -49,7 +49,7 @@
 
                         <div class="user-actions">
                             <button class="action-button edit-button"><i ><a class="fas fa-edit" href="{{ url_for('users.useredit', user_id=user['id'])}}">Edit</a> </i></button>
-                            <button class="action-button delete-button"><i class="fas fa-trash"></i> Delete</button>
+                            <button class="action-button delete-button"><i><a class="fas fa-trash" href="{{ url_for('users.userdelete', user_id=user['id'])}}">Delete</a></i></button>
                         </div>
                     </div>
                 {% endfor %}
