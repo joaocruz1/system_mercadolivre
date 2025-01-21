@@ -12,30 +12,21 @@ class UserServices:
         user_password = data.get("password")
         user_shop = data.get("shop")
 
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAA")
+
         # Validação inicial
-        if not user_email or not user_password or not user_shop:
+        if not user_email :
             return jsonify({"error": "Todos os campos são obrigatórios."}), 400
 
         try:
-            # Buscar o usuário pelo email
-            user = User.get(User.email == user_email)
+           users = User.select()
 
-            # Validar senha
-            if user.password != user_password:
-                raise ValueError("Senha incorreta.")
+           for user in users:
 
-            # Validar loja (comparação com nome da loja associada ao usuário)
-            if user.shop.name.strip().lower() != user_shop.strip().lower():
-                raise ValueError("Essa loja não consta em nosso sistema.")
-
-            # Retornar sucesso e informações do usuário
-            return True, {
-                "id": user.id,
-                "name": user.name,
-                "email": user.email,
-                "shop": user.shop.name,
-                "adm": user.adm,
-            }
+            if user_email == user.email:
+                print("Entrou")
+           
+            return True
 
         except User.DoesNotExist:
             raise ValueError("E-mail não encontrado.")

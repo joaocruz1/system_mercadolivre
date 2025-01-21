@@ -16,6 +16,8 @@ Session(app)
 # Inicializa serviços
 user_services = UserServices()
 services_api = Services()
+database_serviceUser= User()
+
 
 db.connect()
 
@@ -45,7 +47,7 @@ def teardown_request(exception):
         db.close()
 
 # Registra as rotas usando blueprints
-app.register_blueprint(LoginRoute(user_service=user_services).blueprint, url_prefix="/login")
+app.register_blueprint(LoginRoute(user_service=user_services, database_serviceUser=database_serviceUser).blueprint, url_prefix="/login")
 app.register_blueprint(DashboardRoute(services_api=services_api).blueprint, url_prefix="/dashboard")
 app.register_blueprint(UsersRoute(users_service=user_services).blueprint, url_prefix="/users")
 
