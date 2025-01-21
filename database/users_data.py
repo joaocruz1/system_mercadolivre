@@ -1,40 +1,48 @@
 from dataclasses import dataclass
 from flask import request, jsonify
 from datetime import datetime
-from database import User
+from database import User, Shop
+
 @dataclass
 class UserServices:
 
-    user_database : list = User.select()
-
     def login(self, data):
-        
         # Obter dados do dicionário
         user_email = data.get("email")
         user_password = data.get("password")
         user_shop = data.get("shop")
-        user_adm = data.get('adm')
 
+        # Validação inicial
         if not user_email or not user_password or not user_shop:
-
             return jsonify({"error": "Todos os campos são obrigatórios."}), 400
 
+        try:
+            # Buscar o usuário pelo email
+            user = User.get(User.email == user_email)
 
-        # Procura pelo usuário na lista de usuários
-        for user in self.user_database:  # A primeira linha é o cabeçalho, então começa no índice 2
+            # Validar senha
+            if user.password != user_password:
+                raise ValueError("Senha incorreta.")
 
-            if user_email == user.email and user_password == user.password:
-                if user_shop == user.shop:
-                    
-                    infouser_login = user
+            # Validar loja (comparação com nome da loja associada ao usuário)
+            if user.shop.name.strip().lower() != user_shop.strip().lower():
+                raise ValueError("Essa loja não consta em nosso sistema.")
 
-                    return True, infouser_login
-                else:
-                    raise ValueError("Essa loja não consta em nosso sistema.")
-    
-        raise ValueError("E-mail ou senha incorretos.")
+            # Retornar sucesso e informações do usuário
+            return True, {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "shop": user.shop.name,
+                "adm": user.adm,
+            }
 
-
+        except User.DoesNotExist:
+            raise ValueError("E-mail não encontrado.")
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+        except Exception as e:
+            return jsonify({"error": f"Erro no servidor: {str(e)}"}), 500
 
     def remove_user(self):
         return jsonify({"message": "Função de remoção ainda não implementada."}), 501

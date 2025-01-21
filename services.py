@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from token_refresh import TokenRefresh
 from data.dataid import spreadsheet_id
+from database import Shop
 import requests
 
 @dataclass
@@ -23,8 +24,6 @@ class Services:
     self.refresh_token = tokens['refresh_token']
 
     print(f"Conta {self.conta}, Acess Token {self.access_token}, Refresh Token {self.refresh_token}")
-
-
 
   def infouser(self):
     url = "https://api.mercadolibre.com/users/me"
