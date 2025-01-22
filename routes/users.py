@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session, jsonify
+from flask_login import login_required
 from dataclasses import dataclass
 from data.users_data import UserServices
 
@@ -14,16 +15,19 @@ class UsersRoute:
     
     def register_routes(self):
         @self.blueprint.route('/')
+        @login_required
         def users():
             usersinfo = self.users_service.consult_users()
             return render_template('users.html', usersinfo=usersinfo, userinfo_ml=session.get('userinfo_ml'))
 
         @self.blueprint.route('/userinfo')
+        @login_required
         def userinfo():
             return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
 
 
         @self.blueprint.route('/<int:user_id>/delete')
+        @login_required
         def userdelete(user_id):
 
             self.users_service.delete_user(user_id)
@@ -32,6 +36,7 @@ class UsersRoute:
 
 
         @self.blueprint.route('/<int:user_id>/edit')
+        @login_required
         def useredit(user_id):
             user_infos = self.users_service.consult_user(user_id)
 
@@ -39,6 +44,7 @@ class UsersRoute:
 
 
         @self.blueprint.route('/<int:user_id>/edit/update', methods=['POST'])
+        @login_required
         def userupdate(user_id):
             name = request.form['name']
             email = request.form['email']

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from dataclasses import dataclass
 from data.users_data import UserServices
 from services import Services
@@ -22,6 +22,13 @@ class LoginRoute:
         def home():
             return render_template('login.html')
 
+        @self.blueprint.route('/logout')
+        def logout():
+            logout_user()
+            session.clear()
+            return redirect(url_for('login.login'))
+
+
         @self.blueprint.route('/', methods=['POST'])
         def login():
             try:
@@ -37,8 +44,7 @@ class LoginRoute:
 
                     if data['shop'] == user.shop.name:
                         if data['email'] == user.email and data['password'] == user.password:
-                            user1 = {user.name,user.email,user.adm,user.shop.name}
-                            login_user(user1)
+                            login_user(user)
                             session['userinfo_ml'] = self.services_api.infouser()
                             session['userinfo'] = {'user_name': user.name,
                                                    'user_email': user.email,

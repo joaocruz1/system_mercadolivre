@@ -14,9 +14,8 @@ class DashboardRoute:
         self.register_routes()
 
     def register_routes(self):
-
-        @login_required
         @self.blueprint.route('/')
+        @login_required
         def dashboard():
             userinfo = session.get('userinfo')
             userinfo_ml = session.get('userinfo_ml')
@@ -29,8 +28,9 @@ class DashboardRoute:
                 quantity_sales=quantity_sales,
                 userinfo=userinfo
             )
-        @login_required
+        
         @self.blueprint.route('/check-session')
+        @login_required
         def check_session():
             if session:
                 return {key: session[key] for key in session}, 200  # Retorna as informações da sessão como JSON
@@ -38,6 +38,7 @@ class DashboardRoute:
                 return "No session data available", 200
         
         @self.blueprint.route('/clear-session')
+        @login_required
         def clear_session():
             session.clear()  # Limpa todos os dados armazenados na sessão
             return redirect(url_for('login.login'))  # Redireciona para a página inicial (ou outra página desejada)
