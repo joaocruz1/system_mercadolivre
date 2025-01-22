@@ -25,17 +25,26 @@ class LoginRoute:
                 # Obter dados do formulário
                 email = request.form['email']
                 password = request.form['password']
-                shop = request.form['password']
-
-                print(f"Tentativa de login: {email}, {shop}")  # Depuração
+                shop = request.form['shop']
 
                 # Dados do login
                 data = {"email": email, "password": password, "shop": shop}
 
                 for user in self.database_serviceUser.select():
 
-                    if data['email'] == user.email:
-                        return redirect(url_for('dashboard.dashboard'))
+                    if data['shop'] == user.shop.name:
+                        if data['email'] == user.email and data['password'] == user.password:
+                            
+                            session['userinfo'] = {'user_name': user.name,
+                                                   'user_email': user.email,
+                                                   'user_adm': user.adm,
+                                                   'user_shop':user.shop.name}
+                            
+                            return redirect(url_for('dashboard.dashboard'))
+                        else:
+                            return jsonify({"email ou senha incorretos"})
+                    else:
+                        return jsonify("Loja não consta em nosso sistema")
 
             except ValueError as e:
                 print(f"Erro de validação: {e}")  # Depuração

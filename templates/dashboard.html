@@ -16,7 +16,7 @@
                 <ul>
                     <li><a href="{{ url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                    {%if user_info['adm']%}
+                    {%if userinfo['user_adm']%}
                     <li><a href="{{ url_for('users.users') }}"><i class="fas fa-users"></i> Users</a></li>
                     {% endif %}
                     <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
@@ -31,7 +31,7 @@
             <header class="header">
                 <h1>Welcome to the Dashboard</h1>
                 <div class="user-info">
-                    <i class="fas fa-user"></i><li><a href="{{ url_for('users.userinfo')}}">{{userinfo['name']}}</a></li>
+                    <i class="fas fa-user"></i><li><a href="{{ url_for('users.userinfo')}}">{{userinfo['user_name']}}</a></li>
                 </div>
             </header>
 

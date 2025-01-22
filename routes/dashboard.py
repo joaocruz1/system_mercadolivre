@@ -15,17 +15,17 @@ class DashboardRoute:
     def register_routes(self):
         @self.blueprint.route('/')
         def dashboard():
-            user_info = session.get('userinfo')
+            userinfo = session.get('userinfo')
             userinfo_ml = session.get('userinfo_ml')
             session['userinfo_ml'] = self.services_api.infouser()
             quantity_products = self.services_api.search_products()
             quantity_sales = self.services_api.import_sales()
             return render_template(
                 'dashboard.html', 
-                userinfo=userinfo_ml, 
+                userinfo_ml=userinfo_ml, 
                 quantity_products=quantity_products, 
                 quantity_sales=quantity_sales,
-                user_info=user_info
+                userinfo=userinfo
             )
 
         @self.blueprint.route('/check-session')
