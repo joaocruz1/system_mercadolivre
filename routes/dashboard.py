@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for
+from flask_login import login_required
 from dataclasses import dataclass
 from services import Services
 
@@ -13,11 +14,12 @@ class DashboardRoute:
         self.register_routes()
 
     def register_routes(self):
+
+        @login_required
         @self.blueprint.route('/')
         def dashboard():
             userinfo = session.get('userinfo')
             userinfo_ml = session.get('userinfo_ml')
-            session['userinfo_ml'] = self.services_api.infouser()
             quantity_products = self.services_api.search_products()
             quantity_sales = self.services_api.import_sales()
             return render_template(
@@ -27,7 +29,7 @@ class DashboardRoute:
                 quantity_sales=quantity_sales,
                 userinfo=userinfo
             )
-
+        @login_required
         @self.blueprint.route('/check-session')
         def check_session():
             if session:
@@ -38,4 +40,4 @@ class DashboardRoute:
         @self.blueprint.route('/clear-session')
         def clear_session():
             session.clear()  # Limpa todos os dados armazenados na sessão
-            return redirect(url_for('home'))  # Redireciona para a página inicial (ou outra página desejada)
+            return redirect(url_for('login.login'))  # Redireciona para a página inicial (ou outra página desejada)

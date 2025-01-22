@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask_login import login_user
 from dataclasses import dataclass
 from data.users_data import UserServices
+from services import Services
 from database import User
 
 @dataclass
@@ -8,8 +10,9 @@ class LoginRoute:
     blueprint_name: str = "login"
     import_name: str = __name__
     user_service: UserServices = None
+    services_api: Services = None
     database_serviceUser: User = None
-
+    
     def __post_init__(self):
         self.blueprint = Blueprint(self.blueprint_name, self.import_name)
         self.register_routes()
@@ -34,13 +37,15 @@ class LoginRoute:
 
                     if data['shop'] == user.shop.name:
                         if data['email'] == user.email and data['password'] == user.password:
-                            
+                            user1 = {user.name,user.email,user.adm,user.shop.name}
+                            login_user(user1)
+                            session['userinfo_ml'] = self.services_api.infouser()
                             session['userinfo'] = {'user_name': user.name,
                                                    'user_email': user.email,
                                                    'user_adm': user.adm,
                                                    'user_shop':user.shop.name}
-                            
-                            return redirect(url_for('dashboard.dashboard'))
+
+                            return redirect(url_for('dashboard.dashboard')) 
                         else:
                             return jsonify({"email ou senha incorretos"})
                     else:

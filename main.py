@@ -1,4 +1,5 @@
-from flask import Flask, g
+from flask import Flask, url_for, session, g
+from flask_login import LoginManager
 from flask_session import Session
 from routes.login import LoginRoute
 from routes.dashboard import DashboardRoute
@@ -13,30 +14,25 @@ app.secret_key = 'system_ml$91873919'
 app.config['SESSION_TYPE'] = 'filesystem'  # Configuração de sessão
 Session(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login.login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        return User.get(User.id == int(user_id))
+    except User.DoesNotExist:
+        return None
+
 # Inicializa serviços
 user_services = UserServices()
 services_api = Services()
 database_serviceUser= User()
 
-
-db.connect()
-
-# Listar todas as lojas
-print("Lojas:")
-for shop in Shop.select():
-    print(f"ID: {shop.id}, Nome: {shop.name}")
-
-# Listar todos os usuários
-print("\nUsuários:")
-for user in User.select():
-    print(f"ID: {user.id}, Nome: {user.name}, Email: {user.email}, Senha: {user.password}, Loja: {user.shop.name}")
-
-db.close()
-
 # Inicializa o banco de dados
 @app.before_request
 def before_request():
-    """Conecta ao banco antes de cada requisição."""
     if db.is_closed():
         db.connect()
 
@@ -47,7 +43,7 @@ def teardown_request(exception):
         db.close()
 
 # Registra as rotas usando blueprints
-app.register_blueprint(LoginRoute(user_service=user_services, database_serviceUser=database_serviceUser).blueprint, url_prefix="/login")
+app.register_blueprint(LoginRoute(user_service=user_services, database_serviceUser=database_serviceUser, services_api=services_api).blueprint, url_prefix="/login")
 app.register_blueprint(DashboardRoute(services_api=services_api).blueprint, url_prefix="/dashboard")
 app.register_blueprint(UsersRoute(users_service=user_services).blueprint, url_prefix="/users")
 
