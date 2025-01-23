@@ -50,14 +50,14 @@
             <!-- Formulário de edição -->
             <section class="edit-client">
                 <h2>Client Details</h2>
-                <form action="{{ url_for('users.userupdate', user_id=user_infos['id']) }}" method="POST" class="edit-client-form">
+                <form action="{{ url_for('users.userupdate', user_id=user_infos.id) }}" method="POST" class="edit-client-form">
                     <div class="form-group">
                         <label for="client-name">Name</label>
-                        <input type="text" id="name" name="name" value="{{ user_infos['name'] }}" required>
+                        <input type="text" id="name" name="name" value="{{ user_infos.name }}" required>
                     </div>
                     <div class="form-group">
                         <label for="client-email">Email</label>
-                        <input type="email" id="email" name="email" value="{{ user_infos['email'] }}" required>
+                        <input type="email" id="email" name="email" value="{{ user_infos.email }}" required>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn-save">Save</button>

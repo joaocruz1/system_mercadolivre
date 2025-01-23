@@ -219,3 +219,33 @@
     background: #D32F2F;
     transform: scale(1.05);
 }
+
+.add-user-button {
+    background: #4CAF50; /* Cor de fundo verde */
+    color: #fff; /* Cor do texto */
+    padding: 10px 15px; /* Espaçamento interno */
+    font-size: 1rem; /* Tamanho da fonte */
+    border: none; /* Remove bordas */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de mão ao passar o mouse */
+    transition: background 0.3s, transform 0.2s; /* Transição suave para hover */
+    display: inline-flex; /* Para alinhar ícones e texto */
+    align-items: center; /* Alinhamento vertical */
+    justify-content: center; /* Centraliza o conteúdo */
+    gap: 8px; /* Espaço entre o texto e o ícone */
+}
+
+.add-user-button a {
+    text-decoration: none; /* Remove sublinhado */
+    color: inherit; /* Herda a cor do botão */
+    display: inline-flex; /* Para alinhar ícones e texto */
+    align-items: center;
+    gap: 8px;
+    font-weight: bold; /* Texto em negrito */
+}
+
+.add-user-button:hover {
+    background: #388E3C; /* Fundo verde escuro no hover */
+    transform: scale(1.05); /* Leve aumento no hover */
+}
+

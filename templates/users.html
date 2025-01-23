@@ -28,8 +28,11 @@
             <!-- Header -->
             <header class="header">
                 <h1>Users Associated with Store</h1>
-                <div class="user-info">
-                    <i class="fas fa-user"></i><li><a href="{{ url_for('users.userinfo')}}">{{userinfo_ml['name']}}</a></li>
+                <div class="header-actions">
+                    <div class="user-info">
+                        <i class="fas fa-user"></i>
+                        <li><a href="{{ url_for('users.userinfo') }}">{{ userinfo_ml['name'] }}</a></li>
+                    </div>
                 </div>
             </header>
 
@@ -38,24 +41,29 @@
                 {% if usersinfo %}
                 {% for user in usersinfo %}
                     <div class="user-container">
-                        <h3>{{ user['name'] }}</h3>
+                        <h3>{{ user.name }}</h3>
                         <p>Email: <strong>{{ user['email'] }}</strong></p>
 
-                        {% if user['adm'] %}
-                            <p class="role adm-role">Administrator</p>
-                        {% else %}
-                            <p class="role mda-role">Moderator</p>
+                        {% if user.adm %}
+                            <p class="role adm-role">Adm</p>
                         {% endif %}
 
                         <div class="user-actions">
-                            <button class="action-button edit-button"><i ><a class="fas fa-edit" href="{{ url_for('users.useredit', user_id=user['id'])}}">Edit</a> </i></button>
-                            <button class="action-button delete-button"><i><a class="fas fa-trash" href="{{ url_for('users.userdelete', user_id=user['id'])}}">Delete</a></i></button>
+                            <button class="action-button edit-button">
+                                <a href="{{ url_for('users.useredit', user_id=user.id) }}"><i class="fas fa-edit"></i> Edit</a>
+                            </button>
+                            <button class="action-button delete-button">
+                                <a href="{{ url_for('users.userdelete', user_id=user.id) }}"><i class="fas fa-trash"></i> Delete</a>
+                            </button>
                         </div>
                     </div>
                 {% endfor %}
                 {% else %}
                     <p>No users associated with this store.</p>
                 {% endif %}
+                <button class="add-user-button">
+                    <a href=""><i class="fas fa-user-plus"></i> Add User</a>
+                </button>
             </section>
         </main>
     </div>
