@@ -11,7 +11,7 @@ class LoginRoute:
     import_name: str = __name__
     user_service: UserServices = None
     services_api: Services = None
-    database_serviceUser: User = None
+
     
     def __post_init__(self):
         self.blueprint = Blueprint(self.blueprint_name, self.import_name)
@@ -40,16 +40,17 @@ class LoginRoute:
                 # Dados do login
                 data = {"email": email, "password": password, "shop": shop}
 
-                for user in self.database_serviceUser.select():
+                for user in User.select():
 
                     if data['shop'] == user.shop.name:
                         if data['email'] == user.email and data['password'] == user.password:
                             login_user(user)
-                            session['userinfo_ml'] = self.services_api.infouser()
+                            print(user.shop)
                             session['userinfo'] = {'user_name': user.name,
                                                    'user_email': user.email,
                                                    'user_adm': user.adm,
-                                                   'user_shop':user.shop.name}
+                                                   'user_shop': user.shop.name,
+                                                   'shop_id': user.shop}
 
                             return redirect(url_for('dashboard.dashboard')) 
                         else:

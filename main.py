@@ -28,13 +28,21 @@ def load_user(user_id):
 # Inicializa serviços
 user_services = UserServices()
 services_api = Services()
-database_serviceUser= User()
 
 # Inicializa o banco de dados
 @app.before_request
 def before_request():
     if db.is_closed():
         db.connect()
+
+    user_id = session.get('_user_id')
+    if user_id:
+        user = User.get(User.id == int(user_id))
+        g.user_adm = user.adm
+
+
+
+        
 
 @app.teardown_request
 def teardown_request(exception):
@@ -43,7 +51,7 @@ def teardown_request(exception):
         db.close()
 
 # Registra as rotas usando blueprints
-app.register_blueprint(LoginRoute(user_service=user_services, database_serviceUser=database_serviceUser, services_api=services_api).blueprint, url_prefix="/login")
+app.register_blueprint(LoginRoute(user_service=user_services, services_api=services_api).blueprint, url_prefix="/login")
 app.register_blueprint(DashboardRoute(services_api=services_api).blueprint, url_prefix="/dashboard")
 app.register_blueprint(UsersRoute(users_service=user_services).blueprint, url_prefix="/users")
 

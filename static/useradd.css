@@ -1,0 +1,298 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container principal */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Menu lateral */
+.sidebar {
+    width: 250px;
+    background: #4A00E0;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.sidebar nav ul li a:hover {
+    background: #8E2DE2;
+}
+
+/* Conteúdo principal */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.user-info {
+    list-style: none; /* Remove o estilo de lista (bolinha) do <ul> ou <ol> */
+    padding: 0; /* Remove espaçamento interno */
+    margin: 0; /* Remove margens */
+}
+
+.user-info li {
+    list-style: none; /* Remove a bolinha do <li> */
+}
+
+.user-info li a {
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: #4A00E0; /* Define uma cor discreta */
+    font-family: Arial, sans-serif; /* Define uma fonte básica */
+    font-size: 16px; /* Ajusta o tamanho da fonte */
+    padding: 5px 10px; /* Adiciona espaçamento interno */
+    border: 1px solid transparent; /* Adiciona borda invisível */
+    border-radius: 5px; /* Arredonda os cantos */
+    transition: all 0.3s ease; /* Adiciona suavidade ao hover */
+}
+
+.user-info li a:hover {
+    color: rgb(85, 49, 156); /* Cor do texto no hover */
+    text-decoration: none; /* Mantém o texto sem sublinhado */
+    background-color: rgba(74, 0, 224, 0.1); /* Fundo levemente colorido no hover */
+}
+
+.header .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #4A00E0;
+}
+
+/* Formulário de edição */
+.edit-client {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.edit-client h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #4A00E0;
+    text-align: center;
+}
+
+.edit-client form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-client form label {
+    font-weight: bold;
+    color: #555;
+    font-size: 1rem;
+}
+
+.edit-client form input,
+.edit-client form select,
+.edit-client form textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.edit-client form input:focus,
+.edit-client form select:focus,
+.edit-client form textarea:focus {
+    border-color: #4A00E0;
+}
+
+.edit-client form textarea {
+    resize: none;
+    height: 100px;
+}
+
+.edit-client form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.edit-client form .form-actions .btn-save {
+    background: #4A00E0;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-client form .form-actions .btn-save:hover {
+    background: #8E2DE2;
+    transform: scale(1.05);
+}
+
+.edit-client form .form-actions .btn-cancel {
+    background: #f5f5f5;
+    color: #333;
+    padding: 12px 25px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+.edit-client form .form-actions .btn-cancel:hover {
+    background: #e0e0e0;
+    border-color: #bbb;
+    transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .edit-client {
+        padding: 15px;
+    }
+}
+
+.flash-message {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: bold;
+}
+
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.flash-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Checkbox Container */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+/* Oculta o checkbox padrão */
+.checkbox-container input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+/* Customização do checkbox */
+.custom-checkbox {
+    width: 24px;
+    height: 24px;
+    background-color: #ddd;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Quando o checkbox está marcado */
+.checkbox-container input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: #4A00E0;
+    border-color: #4A00E0;
+}
+
+/* Marca de seleção */
+.custom-checkbox:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 3px;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+
+/* Exibe a marca quando o checkbox é marcado */
+.checkbox-container input[type="checkbox"]:checked + .custom-checkbox:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Hover no checkbox */
+.custom-checkbox:hover {
+    border-color: #8E2DE2;
+}
+

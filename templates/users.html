@@ -14,11 +14,11 @@
             <h2>Admin Panel</h2>
             <nav>
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                    <li><a href="/users"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="{{ url_for('users.users') }}"><i class="fas fa-users"></i> Users</a></li>
                     <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a href="{{ url_for('login.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>
         </aside>
@@ -46,6 +46,9 @@
 
                         {% if user.adm %}
                             <p class="role adm-role">Adm</p>
+                        
+                        {% else %}
+                            <p class="role mda-role">Regular user</p>
                         {% endif %}
 
                         <div class="user-actions">
@@ -62,7 +65,7 @@
                     <p>No users associated with this store.</p>
                 {% endif %}
                 <button class="add-user-button">
-                    <a href=""><i class="fas fa-user-plus"></i> Add User</a>
+                    <a href="{{url_for('users.useradd')}}"><i class="fas fa-user-plus"></i> Add User</a>
                 </button>
             </section>
         </main>
