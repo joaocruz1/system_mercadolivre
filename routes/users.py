@@ -27,14 +27,7 @@ class UsersRoute:
             users_database = User.select()
             for user in users_database:
                 print(user.shop)
-            return render_template('users.html', usersinfo=users_database, userinfo_ml=session.get('userinfo_ml'))
-        
-
-        @self.blueprint.route('/userinfo')
-        @login_required
-        def userinfo():
-            return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
-
+            return render_template('adm/users.html', usersinfo=users_database, userinfo_ml=session.get('userinfo_ml'))
 
         @self.blueprint.route('/<int:user_id>/delete')
         @login_required
@@ -51,7 +44,7 @@ class UsersRoute:
         def useredit(user_id):
             user_infos = User.get(User.id == user_id)
 
-            return render_template('useredit.html', userinfo_ml=session.get('userinfo_ml'), user_infos=user_infos)
+            return render_template('adm/useredit.html', userinfo_ml=session.get('userinfo_ml'), user_infos=user_infos)
 
 
         @self.blueprint.route('/<int:user_id>/edit/update', methods=['POST'])
@@ -66,7 +59,7 @@ class UsersRoute:
         @self.blueprint.route('/useradd')
         @login_required
         def useradd():
-            return render_template('useradd.html', userinfo_ml=session.get('userinfo_ml'))
+            return render_template('adm/useradd.html', userinfo_ml=session.get('userinfo_ml'))
         
         @self.blueprint.route('/useradd/update', methods =['POST'])
         @login_required

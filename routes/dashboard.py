@@ -28,7 +28,7 @@ class DashboardRoute:
             if g.user_adm:
 
                 return render_template(
-                    'dashboard.html', 
+                    'adm/dashboard_adm.html', 
                     userinfo_ml=userinfo_ml, 
                     quantity_products=quantity_products, 
                     quantity_sales=quantity_sales,
@@ -42,6 +42,11 @@ class DashboardRoute:
                     quantity_sales=quantity_sales,
                     userinfo=userinfo
                     )
+        
+        @self.blueprint.route('/userinfo')
+        @login_required
+        def userinfo():
+            return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
         
         @self.blueprint.route('/check-session')
         @login_required
