@@ -2,7 +2,7 @@ from flask import Blueprint, flash, render_template, request, redirect, url_for,
 from flask_login import login_required
 from dataclasses import dataclass
 from data.users_data import UserServices
-from database import User
+from database import User, Shop
 
 @dataclass 
 class UsersRoute:
@@ -25,7 +25,10 @@ class UsersRoute:
         @login_required
         def users():
             users_database = User.select()
+            for user in users_database:
+                print(user.shop)
             return render_template('users.html', usersinfo=users_database, userinfo_ml=session.get('userinfo_ml'))
+        
 
         @self.blueprint.route('/userinfo')
         @login_required
@@ -72,9 +75,10 @@ class UsersRoute:
             adm = request.form.get('adm')
             if adm == None:
                 adm = False
-                
+            
+            user_shop = session.get('userinfo', {}).get('shop_id')
             User.create(
-                shop= 1,
+                shop= Shop.get(Shop.id == user_shop),
                 name=request.form['name'],
                 email=request.form['email'],
                 password=request.form['password'],

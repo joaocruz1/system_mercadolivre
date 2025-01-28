@@ -3,7 +3,8 @@ from flask_login import login_user, logout_user
 from dataclasses import dataclass
 from data.users_data import UserServices
 from services import Services
-from database import User
+from database import User, Shop
+from peewee import DoesNotExist
 
 @dataclass
 class LoginRoute:
@@ -32,35 +33,36 @@ class LoginRoute:
         @self.blueprint.route('/', methods=['POST'])
         def login():
             try:
-                # Obter dados do formulário
-                email = request.form['email']
-                password = request.form['password']
-                shop = request.form['shop']
+                shop_name = request.form.get('shop')
+                email = request.form.get('email')
+                password = request.form.get('password')
 
-                # Dados do login
-                data = {"email": email, "password": password, "shop": shop}
+                # Valida se os campos foram enviados
+                if not shop_name or not email or not password:
+                    return jsonify({"error": "Todos os campos são obrigatórios"}), 400
 
-                for user in User.select():
+                # Busca a loja pelo nome
+                shop = Shop.get(Shop.name == shop_name)
 
-                    if data['shop'] == user.shop.name:
-                        if data['email'] == user.email and data['password'] == user.password:
-                            login_user(user)
-                            print(user.shop)
-                            session['userinfo'] = {'user_name': user.name,
-                                                   'user_email': user.email,
-                                                   'user_adm': user.adm,
-                                                   'user_shop': user.shop.name,
-                                                   'shop_id': user.shop}
+                # Busca o usuário pelo e-mail e senha dentro da loja encontrada
+                user = User.get(User.email == email, User.password == password, User.shop == shop)
 
-                            return redirect(url_for('dashboard.dashboard')) 
-                        else:
-                            return jsonify({"email ou senha incorretos"})
-                    else:
-                        return jsonify("Loja não consta em nosso sistema")
+                # Faz login do usuário
+                login_user(user)
 
-            except ValueError as e:
-                print(f"Erro de validação: {e}")  # Depuração
-                return jsonify({"error": str(e)}), 400
+                # Armazena as informações do usuário na sessão
+                session['userinfo'] = {
+                    'user_name': user.name,
+                    'user_email': user.email,
+                    'user_adm': user.adm,
+                    'user_shop': shop.name,
+                    'shop_id': shop.id
+                }
+
+                return redirect(url_for('dashboard.dashboard'))
+
+            except DoesNotExist:
+                return jsonify({"error": "Loja, e-mail ou senha incorretos"}), 400
 
             except Exception as e:
                 print(f"Erro inesperado: {e}")  # Depuração

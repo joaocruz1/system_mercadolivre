@@ -17,13 +17,16 @@ class DashboardRoute:
         @self.blueprint.route('/')
         @login_required
         def dashboard():
+
+            session['userinfo_ml'] = self.services_api.infouser()
+            userinfo = session.get('userinfo')
+            userinfo_ml = session.get('userinfo_ml')
+            quantity_products = self.services_api.search_products()
+            quantity_sales = self.services_api.import_sales()
             g.user_adm = session.get('userinfo', {}).get('user_adm')
+
             if g.user_adm:
-                session['userinfo_ml'] = self.services_api.infouser()
-                userinfo = session.get('userinfo')
-                userinfo_ml = session.get('userinfo_ml')
-                quantity_products = self.services_api.search_products()
-                quantity_sales = self.services_api.import_sales()
+
                 return render_template(
                     'dashboard.html', 
                     userinfo_ml=userinfo_ml, 
@@ -31,6 +34,14 @@ class DashboardRoute:
                     quantity_sales=quantity_sales,
                     userinfo=userinfo
                 )
+            
+            else:
+                return render_template('dashboard.html', 
+                    userinfo_ml=userinfo_ml, 
+                    quantity_products=quantity_products, 
+                    quantity_sales=quantity_sales,
+                    userinfo=userinfo
+                    )
         
         @self.blueprint.route('/check-session')
         @login_required
