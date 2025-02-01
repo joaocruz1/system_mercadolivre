@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from flask_login import login_user, logout_user
 from dataclasses import dataclass
-from data.users_data import UserServices
 from services import Services
 from database import User, Shop
 from peewee import DoesNotExist
@@ -10,7 +9,6 @@ from peewee import DoesNotExist
 class LoginRoute:
     blueprint_name: str = "login"
     import_name: str = __name__
-    user_service: UserServices = None
     services_api: Services = None
 
     

@@ -1,14 +1,12 @@
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session, jsonify, g
 from flask_login import login_required
 from dataclasses import dataclass
-from data.users_data import UserServices
 from database import User, Shop
 
 @dataclass 
 class UsersRoute:
     blueprint_name: str = "users"
     import_name: str = __name__
-    users_service: UserServices = None
 
     def __post_init__(self):
         self.blueprint = Blueprint(self.blueprint_name, self.import_name)

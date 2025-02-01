@@ -1,10 +1,9 @@
-from flask import Flask, url_for, session, g
+from flask import Flask, g, session
 from flask_login import LoginManager
 from flask_session import Session
 from routes.login import LoginRoute
 from routes.dashboard import DashboardRoute
 from routes.users import UsersRoute
-from data.users_data import UserServices
 from services import Services
 from database import db, User, Shop
 
@@ -26,7 +25,6 @@ def load_user(user_id):
         return None
 
 # Inicializa serviços
-user_services = UserServices()
 services_api = Services()
 
 # Inicializa o banco de dados
@@ -51,9 +49,9 @@ def teardown_request(exception):
         db.close()
 
 # Registra as rotas usando blueprints
-app.register_blueprint(LoginRoute(user_service=user_services, services_api=services_api).blueprint, url_prefix="/login")
+app.register_blueprint(LoginRoute( services_api=services_api).blueprint, url_prefix="/login")
 app.register_blueprint(DashboardRoute(services_api=services_api).blueprint, url_prefix="/dashboard")
-app.register_blueprint(UsersRoute(users_service=user_services).blueprint, url_prefix="/users")
+app.register_blueprint(UsersRoute().blueprint, url_prefix="/users")
 
 if __name__ == '__main__':
     app.run(debug=True)

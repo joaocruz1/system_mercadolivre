@@ -61,7 +61,7 @@ class Services:
 
     return len(self.products)
   
-  def import_sales(self):
+  def import_orders(self):
 
     url = f"https://api.mercadolibre.com/orders/search?seller={self.id_user}&tags=mshops"
 
@@ -72,28 +72,22 @@ class Services:
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    sellers = response.json()
-    orders = sellers.get('results', [])
-
-    return len(orders)
-  
-  def import_oders(self,orders):
+    response.json()
+    orders = response.get('results', [])
+    products_quantity = len(orders)
+    orders_id = []
 
     for order in orders:
 
-      url = f"https://api.mercadolibre.com/orders/{order}"
+      orders_id.append(order.get('id'))
 
-      payload = {}
-      headers = {
-        'Authorization': f'Bearer {self.access_token}',
-        'x-format-new': ''
-      }
+    return products_quantity, orders_id
 
-      response = requests.request("GET", url, headers=headers, data=payload)
-      order_info = response.json()
 
-      return order_info
 
+
+  def import_feedbacks(self,orders_id):
+    pass
 
       
 

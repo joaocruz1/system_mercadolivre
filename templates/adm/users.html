@@ -42,11 +42,7 @@
                 {% for user in usersinfo %}
                     <div class="user-container">
                         <h3>{{ user.name }}</h3>
-                        <h1>{{user.shop.name}}</h1>
-                        <h1>{{user.shop.id}}</h1>
-                        <h1>{{user.shop}}</h1>
                         <p>Email: <strong>{{ user['email'] }}</strong></p>
-
                         {% if user.adm %}
                             <p class="role adm-role">Adm</p>
                         

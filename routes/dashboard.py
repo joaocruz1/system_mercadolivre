@@ -22,7 +22,6 @@ class DashboardRoute:
             userinfo = session.get('userinfo')
             userinfo_ml = session.get('userinfo_ml')
             quantity_products = self.services_api.search_products()
-            quantity_sales = self.services_api.import_sales()
             g.user_adm = session.get('userinfo', {}).get('user_adm')
 
             if g.user_adm:
@@ -31,7 +30,6 @@ class DashboardRoute:
                     'adm/dashboard_adm.html', 
                     userinfo_ml=userinfo_ml, 
                     quantity_products=quantity_products, 
-                    quantity_sales=quantity_sales,
                     userinfo=userinfo
                 )
             
