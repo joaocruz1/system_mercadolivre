@@ -21,7 +21,8 @@ class DashboardRoute:
             session['userinfo_ml'] = self.services_api.infouser()
             userinfo = session.get('userinfo')
             userinfo_ml = session.get('userinfo_ml')
-            quantity_products = self.services_api.search_products()
+            amount_products = self.services_api.search_products()
+            amount_orders = self.services_api.import_orders()
             g.user_adm = session.get('userinfo', {}).get('user_adm')
 
             if g.user_adm:
@@ -29,15 +30,16 @@ class DashboardRoute:
                 return render_template(
                     'adm/dashboard_adm.html', 
                     userinfo_ml=userinfo_ml, 
-                    quantity_products=quantity_products, 
-                    userinfo=userinfo
+                    amount_products=amount_products, 
+                    userinfo=userinfo,
+                    amount_orders=amount_orders
                 )
             
             else:
                 return render_template('dashboard.html', 
                     userinfo_ml=userinfo_ml, 
-                    quantity_products=quantity_products, 
-                    quantity_sales=quantity_sales,
+                    quantity_products=amount_products, 
+                    quantity_orders=amount_orders,
                     userinfo=userinfo
                     )
         

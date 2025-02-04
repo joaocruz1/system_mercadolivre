@@ -37,6 +37,7 @@ class Services:
     data = response.json()
 
     self.id_user = data.get('id')
+    print(self.id_user)
     first_name = data.get('first_name')
     last_name = data.get('last_name')
     email = data.get('email')
@@ -72,16 +73,16 @@ class Services:
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    response.json()
-    orders = response.get('results', [])
-    products_quantity = len(orders)
+    data = response.json()
+    orders = data.get('results', [])
+    orders_amount = len(orders)
     orders_id = []
 
     for order in orders:
 
       orders_id.append(order.get('id'))
 
-    return products_quantity, orders_id
+    return orders_amount
 
 
 
