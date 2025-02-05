@@ -48,6 +48,14 @@ class DashboardRoute:
         def userinfo():
             return render_template('userinfo.html', userinfo_ml=session.get('userinfo_ml'),userinfo=session.get('userinfo') )
         
+        @self.blueprint.route('/categories')
+        @login_required
+        def categories():
+            categories = self.services_api.import_categories()
+
+            return render_template('categories.html', categories=categories)
+            
+
         @self.blueprint.route('/check-session')
         @login_required
         def check_session():

@@ -3,6 +3,7 @@ from token_refresh import TokenRefresh
 from data.dataid import spreadsheet_id
 from database import Shop
 import requests
+import json
 
 @dataclass
 class Services:
@@ -37,7 +38,6 @@ class Services:
     data = response.json()
 
     self.id_user = data.get('id')
-    print(self.id_user)
     first_name = data.get('first_name')
     last_name = data.get('last_name')
     email = data.get('email')
@@ -85,10 +85,89 @@ class Services:
     return orders_amount
 
 
-
-
   def import_feedbacks(self,orders_id):
     pass
+
+  def import_categories(self):
+
+    url = "https://api.mercadolibre.com/sites/MLB/categories/all"
+
+    payload = ""
+    headers = {}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+    data = response.json()
+    categories = []
+
+    for category in data.values():
+
+      id = category.get('id',[])
+      name = category.get('name',[])
+      subcategories = category.get('children_categories',[])
+      subcategories_list = []
+
+      for sub in subcategories:
+        id = sub.get('id',[])
+        name = sub.get('name',[])
+        subcategories_list.append({ 'id': id, 'name': name})
+
+      categories.append(
+        { 'id': id,
+          'name': name,
+          'subcategories':subcategories_list
+        }
+      )
+    return categories
+
+    
+  def publi_product(self,title,category_id,price,avaible_quantity,listing_type_id,condition,description,pictures):
+
+    url = "https://api.mercadolibre.com/items"
+
+    payload = json.dumps({
+      "title": "Mochila cinza",
+      "category_id": "MLB277590",
+      "price": 1500,
+      "currency_id": "BRL",
+      "available_quantity": 5,
+      "buying_mode": "buy_it_now",
+      "listing_type_id": "gold_special",
+      "condition": "new",
+      "description": "mochilaboa.",
+      "pictures": [
+        {
+          "source": "URL_DA_IMAGEM_1"
+        },
+        {
+          "source": "URL_DA_IMAGEM_2"
+        }
+      ],
+      "shipping": {
+        "mode": "me2",
+        "free_shipping": True
+      },
+      "attributes": [
+        {
+          "id": "BRAND",
+          "value_name": "Marca Exemplo"
+        },
+        {
+          "id": "PART_NUMBER",
+          "value_name": "123456"
+        }
+      ]
+    })
+    headers = {
+      'Authorization': f'Bearer {self.access_token}',
+      'Content-Type': 'application/json'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    print(response.text)
+
+
+    
 
       
 

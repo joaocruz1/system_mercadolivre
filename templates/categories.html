@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='categories.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="categories-container">
+        <!-- Menu lateral -->
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('dashboard.categories')}}"><i class="fas fa-tags"></i> Categories</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="{{ url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <header class="header">
+                <h1>Categories Overview</h1>
+            </header>
+
+            <!-- Categories Table -->
+            <section class="categories-data">
+                <h3>Categories List</h3>
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Electronics</td>
+                                <td>All kinds of electronic items</td>
+                                <td><button>Edit</button><button>Delete</button></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Clothing</td>
+                                <td>Fashion and apparel</td>
+                                <td><button>Edit</button><button>Delete</button></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Home Goods</td>
+                                <td>Furniture and home items</td>
+                                <td><button>Edit</button><button>Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
