@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='products.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="products-container">
+        <!-- Menu lateral -->
+        <aside class="sidebar">
+            <h2>Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="{{url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <section class="products">
+                <h1>Our Products</h1>
+
+                <!-- Barra de pesquisa -->
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search products..." id="searchInput">
+                </div>
+
+                <div class="products-grid">
+                    <!-- Exemplo de produto -->
+                    <div class="product-item">
+                        <img src="product1.jpg" alt="Product 1" class="product-image">
+                        <div class="product-info">
+                            <h2 class="product-name">Product 1</h2>
+                            <p class="product-description">Description of Product 1</p>
+                            <span class="product-price">$99.99</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <img src="product2.jpg" alt="Product 2" class="product-image">
+                        <div class="product-info">
+                            <h2 class="product-name">Product 2</h2>
+                            <p class="product-description">Description of Product 2</p>
+                            <span class="product-price">$89.99</span>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <img src="product3.jpg" alt="Product 3" class="product-image">
+                        <div class="product-info">
+                            <h2 class="product-name">Product 3</h2>
+                            <p class="product-description">Description of Product 3</p>
+                            <span class="product-price">$79.99</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Mais produtos podem ser adicionados aqui -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Função de pesquisa
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const products = document.querySelectorAll('.product-item');
+
+            products.forEach(product => {
+                const productName = product.querySelector('.product-name').textContent.toLowerCase();
+                const productDescription = product.querySelector('.product-description').textContent.toLowerCase();
+
+                if (productName.includes(searchValue) || productDescription.includes(searchValue)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

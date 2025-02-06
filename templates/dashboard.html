@@ -34,11 +34,13 @@
 
             <!-- Cards -->
             <section class="cards">
-                <div class="card">
-                    <h3>Total Products</h3>
-                    <p>{{amount_products}}</p>
-                    <span class="card-icon"><i class="fas fa-dollar-sign"></i></span>
-                </div>
+                <a href="{{url_for('dashboard.products')}}">
+                    <div class="card">
+                        <h3>Total Products</h3>
+                        <p>{{amount_products}}</p>
+                        <span class="card-icon"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                </a>
                 <div class="card">
                     <h3>Ordes</h3>
                     <p>{{amount_orders}}</p>

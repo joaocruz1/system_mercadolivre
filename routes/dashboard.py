@@ -21,7 +21,7 @@ class DashboardRoute:
             session['userinfo_ml'] = self.services_api.infouser()
             userinfo = session.get('userinfo')
             userinfo_ml = session.get('userinfo_ml')
-            amount_products = self.services_api.search_products()
+            amount_products = len(self.services_api.search_products())
             amount_orders = self.services_api.import_orders()
             g.user_adm = session.get('userinfo', {}).get('user_adm')
 
@@ -54,7 +54,15 @@ class DashboardRoute:
             categories = self.services_api.import_categories()
 
             return render_template('categories.html', categories=categories)
+
+        @self.blueprint.route('/products')
+        @login_required
+        def products():
+            products = self.services_api.search_products()
             
+            return render_template('products.html')
+
+
 
         @self.blueprint.route('/check-session')
         @login_required

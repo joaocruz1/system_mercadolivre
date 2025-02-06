@@ -38,6 +38,7 @@ class Services:
     data = response.json()
 
     self.id_user = data.get('id')
+    print(self.id_user)
     first_name = data.get('first_name')
     last_name = data.get('last_name')
     email = data.get('email')
@@ -59,8 +60,9 @@ class Services:
 
     data = response.json()
     self.products = data.get('results', [])  
+    
 
-    return len(self.products)
+    return self.products
   
   def import_orders(self):
 
