@@ -11,61 +11,91 @@
     <div class="categories-container">
         <!-- Menu lateral -->
         <aside class="sidebar">
-            <h2>Admin Panel</h2>
+            <h2>Panel</h2>
             <nav>
                 <ul>
                     <li><a href="{{ url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="{{ url_for('dashboard.categories')}}"><i class="fas fa-tags"></i> Categories</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
                     <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
                     <li><a href="{{ url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>
         </aside>
 
-        <!-- Main content -->
+        <!-- Conteúdo principal -->
         <main class="main-content">
-            <!-- Cabeçalho -->
-            <header class="header">
-                <h1>Categories Overview</h1>
-            </header>
-
-            <!-- Categories Table -->
-            <section class="categories-data">
-                <h3>Categories List</h3>
-                <div class="table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Electronics</td>
-                                <td>All kinds of electronic items</td>
-                                <td><button>Edit</button><button>Delete</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Clothing</td>
-                                <td>Fashion and apparel</td>
-                                <td><button>Edit</button><button>Delete</button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Home Goods</td>
-                                <td>Furniture and home items</td>
-                                <td><button>Edit</button><button>Delete</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <section class="categories">
+                <h1>Categories</h1>
+                
+                <!-- Barra de pesquisa -->
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search categories..." id="searchInput">
                 </div>
+
+                {% for category in categories %}
+                <ul class="category-list">
+                    <li class="category-item">
+                        <div class="category-name">
+                            <i class="fas fa-folder"></i> {{ category.name }}
+                            {% if category.subcategories %}
+                                <i class="fas fa-chevron-right toggle-arrow"></i>
+                            {% endif %}
+                        </div>
+                        {% if category.subcategories %}
+                            <ul class="subcategory-list">
+                                {% for subcategory in category.subcategories %}
+                                    <li>{{ subcategory.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                </ul>
+                {% endfor %}
             </section>
         </main>
     </div>
+
+    <script>
+        // Alternar visibilidade das subcategorias e girar a seta
+        document.querySelectorAll('.category-name').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                const arrow = item.querySelector('.toggle-arrow');
+                parent.classList.toggle('active');
+
+                if (arrow) {
+                    arrow.classList.toggle('rotate');
+                }
+            });
+        });
+
+        // Função de pesquisa
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const categories = document.querySelectorAll('.category-item');
+
+            categories.forEach(category => {
+                const categoryName = category.querySelector('.category-name').textContent.toLowerCase();
+                const subcategories = category.querySelectorAll('.subcategory-list li');
+                let matchFound = false;
+
+                if (categoryName.includes(searchValue)) {
+                    matchFound = true;
+                }
+
+                subcategories.forEach(subcategory => {
+                    const subName = subcategory.textContent.toLowerCase();
+                    if (subName.includes(searchValue)) {
+                        subcategory.style.display = 'block';
+                        matchFound = true;
+                    } else {
+                        subcategory.style.display = 'none';
+                    }
+                });
+
+                category.style.display = matchFound ? 'block' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>

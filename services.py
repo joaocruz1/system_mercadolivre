@@ -112,9 +112,9 @@ class Services:
         subcategories_list.append({ 'id': id, 'name': name})
 
       categories.append(
-        { 'id': id,
-          'name': name,
-          'subcategories':subcategories_list
+        {  'id': id,
+           'name' : name,
+           'subcategories' : subcategories_list
         }
       )
     return categories

@@ -1,11 +1,9 @@
-/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Container principal */
 .categories-container {
     display: flex;
     height: 100vh;
@@ -13,7 +11,6 @@
     font-family: Arial, sans-serif;
 }
 
-/* Menu lateral */
 .sidebar {
     width: 250px;
     background: #4A00E0;
@@ -22,6 +19,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: fixed; /* Fixa o sidebar */
+    height: 100%; /* Faz o sidebar ocupar toda a altura */
 }
 
 .sidebar h2 {
@@ -54,72 +53,92 @@
     background: #8E2DE2;
 }
 
-/* Conteúdo principal */
 .main-content {
+    height: 100vh;
+    overflow-y: auto;
     flex: 1;
+    margin-left: 270px; /* Deixa espaço para o sidebar */
     padding: 20px;
-}
-
-/* Cabeçalho */
-.header {
     background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.header h1 {
-    font-size: 1.5rem;
-    color: #333;
-}
-
-/* Tabela de categorias */
-.categories-data {
-    background: #fff;
-    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.categories-data h3 {
-    font-size: 1.3rem;
+.categories h1 {
+    font-size: 1.8rem;
     color: #333;
     margin-bottom: 20px;
 }
 
-/* Tabela */
-.table table {
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-input {
     width: 100%;
-    border-collapse: collapse;
-}
-
-.table table th, .table table td {
-    text-align: left;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
-.table table th {
-    background: #f7f7f7;
+.category-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.category-item {
+    background: #f0f0f0;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.category-item:hover {
+    background: #ddd;
+}
+
+.category-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-weight: bold;
 }
 
-.table table tbody tr:hover {
-    background: #f0f0f0;
+.subcategory-list {
+    display: none;
+    padding-left: 20px;
+    margin-top: 10px;
 }
 
-.table table button {
-    background-color: #4A00E0;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    margin-right: 5px;
+.category-item.active .subcategory-list {
+    display: block;
+}
+
+.subcategory-list li {
+    background: #e0e0e0;
+    padding: 8px;
+    margin: 5px 0;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.table table button:hover {
-    background-color: #8E2DE2;
+.toggle-arrow {
+    transition: transform 0.3s ease;
+}
+
+.rotate {
+    transform: rotate(90deg);
+}
+
+/* Estilos para permitir rolagem apenas nas categorias */
+.main-content {
+    overflow-y: scroll;
+    max-height: calc(100vh - 40px); /* Ajuste a altura para o conteúdo */
+}
+
+.category-list {
+    max-height: 500px; /* Limita a altura da lista de categorias */
+    overflow-y: auto; /* Adiciona rolagem */
 }
