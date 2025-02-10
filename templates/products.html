@@ -33,35 +33,19 @@
                 </div>
 
                 <div class="products-grid">
-                    <!-- Exemplo de produto -->
-                    <div class="product-item">
-                        <img src="product1.jpg" alt="Product 1" class="product-image">
-                        <div class="product-info">
-                            <h2 class="product-name">Product 1</h2>
-                            <p class="product-description">Description of Product 1</p>
-                            <span class="product-price">$99.99</span>
+                    {%for product in products_infos%}
+                        <div class="product-item">
+                            <a href="{{url_for('products.productedit', product_id =product.id)}}">
+                            <img src="{{ product.pictures.0.secure_url }}" alt="Product 1" class="product-image">
+                            <div class="product-info">
+                                <h2 class="product-name">{{product.title}}</h2>
+                                <p class="product-description">{{product.id}}</p>
+                                <span class="product-price">R${{product.price}}</span>
+                            </div>
+                            </a>  
                         </div>
-                    </div>
+                    {%endfor%}
 
-                    <div class="product-item">
-                        <img src="product2.jpg" alt="Product 2" class="product-image">
-                        <div class="product-info">
-                            <h2 class="product-name">Product 2</h2>
-                            <p class="product-description">Description of Product 2</p>
-                            <span class="product-price">$89.99</span>
-                        </div>
-                    </div>
-
-                    <div class="product-item">
-                        <img src="product3.jpg" alt="Product 3" class="product-image">
-                        <div class="product-info">
-                            <h2 class="product-name">Product 3</h2>
-                            <p class="product-description">Description of Product 3</p>
-                            <span class="product-price">$79.99</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Mais produtos podem ser adicionados aqui -->
                 </div>
             </section>
         </main>

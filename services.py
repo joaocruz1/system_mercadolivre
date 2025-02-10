@@ -12,7 +12,6 @@ class Services:
   access_token:str
   refresh_token:str
   id_user:str = None
-  products: list = None
   orders: list = None
 
   def __init__(self):
@@ -47,7 +46,7 @@ class Services:
 
     return {"id" : self.id_user, "name" : first_name, "last_name" : last_name, "email": email, "address": address, "state": state}
   
-  def search_products(self):
+  def import_id_products(self):
     
     url = f"https://api.mercadolibre.com/users/{self.id_user}/items/search"
 
@@ -59,10 +58,43 @@ class Services:
     response = requests.request("GET", url, headers=headers, data=payload)
 
     data = response.json()
-    self.products = data.get('results', [])  
+    products_id = data.get('results', [])  
     
 
-    return self.products
+    return products_id
+  
+  def import_info_products_list(self,products_id):
+    
+    products_info_list = []
+
+    for product in products_id:
+      url = f"https://api.mercadolibre.com/items/{product}"
+
+      payload = {}
+      headers = {
+        'Authorization': f'Bearer {self.access_token}'
+      }
+
+      response = requests.request("GET", url, headers=headers, data=payload)
+      data = response.json()
+      products_info_list.append(data)
+    
+    return products_info_list
+  
+  def import_info_product(self,product_id):
+      
+      url = f"https://api.mercadolibre.com/items/{product_id}"
+
+      payload = {}
+      headers = {
+        'Authorization': f'Bearer {self.access_token}'
+      }
+
+      response = requests.request("GET", url, headers=headers, data=payload)
+      product = response.json()
+    
+      return product
+
   
   def import_orders(self):
 

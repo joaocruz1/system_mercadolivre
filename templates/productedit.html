@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='productedit.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="product-edit-container">
+        <aside class="sidebar">
+            <h2>Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="{{url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section class="product-edit">
+                <h1>Edit Product {{ product.id }}</h1>
+
+                <div class="product-details">
+                    <!-- Imagem do produto em cima -->
+                    <div class="image-container">
+                        <img src="{{ product.pictures.0.secure_url }}" alt="Product Image" class="product-image">
+                        <label for="imageUpload" class="upload-button">Change Image</label>
+                        <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                    </div>
+
+                    <!-- Informações do produto abaixo da imagem -->
+                    <div class="product-info">
+                        <div class="form-group">
+                            <label for="productName">Product Name:</label>
+                            <input type="text" id="productName" value="{{ product.title }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="productDescription">Description:</label>
+                            <textarea id="productDescription">{{ product.description }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Price (R$):</label>
+                            <input type="text" id="productPrice" value="{{ product.price }}">
+                        </div>
+                    </div>
+
+                    <button class="save-btn">Save Changes</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Função para pré-visualizar a imagem selecionada
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                const image = document.querySelector('.product-image');
+                image.src = reader.result;  // Atualiza a imagem com o novo arquivo selecionado
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Funcionalidade de salvar
+        document.querySelector('.save-btn').addEventListener('click', function() {
+            const productName = document.getElementById('productName').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productPrice = document.getElementById('productPrice').value;
+
+            // Enviar os dados para salvar as alterações, por exemplo, com fetch para o backend
+            console.log('Saving Product:', {
+                name: productName,
+                description: productDescription,
+                price: productPrice
+            });
+
+            alert('Changes Saved!');
+        });
+    </script>
+</body>
+</html>

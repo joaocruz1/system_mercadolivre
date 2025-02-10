@@ -4,6 +4,7 @@ from flask_session import Session
 from routes.login import LoginRoute
 from routes.dashboard import DashboardRoute
 from routes.users import UsersRoute
+from routes.products import ProductsRoute
 from services import Services
 from database import db, User, Shop
 
@@ -52,6 +53,7 @@ def teardown_request(exception):
 app.register_blueprint(LoginRoute( services_api=services_api).blueprint, url_prefix="/login")
 app.register_blueprint(DashboardRoute(services_api=services_api).blueprint, url_prefix="/dashboard")
 app.register_blueprint(UsersRoute().blueprint, url_prefix="/users")
+app.register_blueprint(ProductsRoute(services_api=services_api).blueprint, url_prefix="/products")
 
 if __name__ == '__main__':
     app.run(debug=True)
