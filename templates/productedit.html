@@ -26,11 +26,15 @@
                 <h1>Edit Product {{ product.id }}</h1>
 
                 <div class="product-details">
-                    <!-- Imagem do produto em cima -->
-                    <div class="image-container">
-                        <img src="{{ product.pictures.0.secure_url }}" alt="Product Image" class="product-image">
-                        <label for="imageUpload" class="upload-button">Change Image</label>
-                        <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                    
+                    <div class="images-container">
+                        {%for picture in product.pictures%}
+                            <div class="image-container">
+                                <img src="{{picture.secure_url }}" alt="Product Image" class="product-image">
+                                <label for="imageUpload" class="upload-button">Change Image</label>
+                                <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                            </div>
+                        {%endfor%}
                     </div>
 
                     <!-- Informações do produto abaixo da imagem -->

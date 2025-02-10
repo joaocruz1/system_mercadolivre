@@ -95,6 +95,8 @@ class Services:
     
       return product
 
+  def edit_infos_product(self,product_id, product_description,product_price, pruduct_img):
+    pass
   
   def import_orders(self):
 

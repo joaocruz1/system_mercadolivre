@@ -82,18 +82,26 @@ a {
     gap: 30px;
 }
 
-.image-container {
+.images-container {
     display: flex;
-    flex-direction: column;
+    gap: 20px; /* Espaçamento entre as imagens */
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.image-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Ajusta as imagens e o botão na vertical */
     align-items: center;
     gap: 10px;
 }
 
 .product-image {
-    width: 300px;
-    height: 300px;
+    width: 150px; /* Tamanho reduzido das imagens */
+    height: 150px; /* Tamanho reduzido das imagens */
     border-radius: 5px;
-    object-fit: contain; /* Ajusta a imagem sem cortar */
+    object-fit: contain;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 

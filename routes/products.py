@@ -28,5 +28,5 @@ class ProductsRoute:
         def productedit(product_id):
 
             product_info = self.services_api.import_info_product(product_id)
-            print(product_info)
+            
             return render_template('productedit.html', product = product_info)
