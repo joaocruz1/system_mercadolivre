@@ -36,12 +36,17 @@ class ProductsRoute:
         def productupdate(product_id):
         
             product_img = request.files.get('newImageUpload')
+            product_title = request.form['productName']
 
             if product_img is None:
-                self.services_api.edit_infos_product(product_id, None)
-                print("Nenhuma imagem foi enviada.")
+                self.services_api.edit_infos_product(product_id, None, None)
             else:
                 print("Imagem recebida:", product_img.filename)
-                self.services_api.edit_infos_product(product_id, product_img)
+                self.services_api.edit_infos_product(product_id, product_img, None)
+            
+            if product_title == "":
+               self.services_api.edit_infos_product(product_id, None, None)
+            else:
+                self.services_api.edit_infos_product(product_id, None, product_title)
 
             return redirect(url_for('products.productedit', product_id=product_id))

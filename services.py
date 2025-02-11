@@ -97,10 +97,10 @@ class Services:
     
       return product
 
-  def edit_infos_product(self,product_id,product_img,product_title=None,product_description=None,product_price=None,product_condition =None,product_status=None,product_quantity=None):
+  def edit_infos_product(self,product_id,product_img,product_title,product_description=None,product_price=None,product_condition =None,product_status=None,product_quantity=None):
 
     if product_img != None:
-        
+
       mime_type, _ = mimetypes.guess_type(product_img.filename)
 
       url = "https://api.mercadolibre.com/pictures/items/upload"
@@ -132,6 +132,22 @@ class Services:
       }
 
       response = requests.request("POST", url, headers=headers, data=payload)
+    
+    if product_title != None:
+
+      url = f"https://api.mercadolibre.com/items/{product_id}"
+
+      payload = json.dumps({
+        "title": f"{str(product_title)}"
+      })
+      headers = {
+        'Authorization': f'Bearer {self.access_token}',
+        'Content-Type': 'application/json'
+      }
+
+      response = requests.request("PUT", url, headers=headers, data=payload)
+      print(response)
+
 
 
   
