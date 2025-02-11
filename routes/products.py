@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for, request
 from flask_login import login_required
 from services import Services
 from dataclasses import dataclass
@@ -30,3 +30,18 @@ class ProductsRoute:
             product_info = self.services_api.import_info_product(product_id)
             
             return render_template('productedit.html', product = product_info)
+        
+        @self.blueprint.route('<product_id>/edit/uptade', methods=['POST'])
+        @login_required
+        def productupdate(product_id):
+        
+            product_img = request.files.get('newImageUpload')
+
+            if product_img is None:
+                self.services_api.edit_infos_product(product_id, None)
+                print("Nenhuma imagem foi enviada.")
+            else:
+                print("Imagem recebida:", product_img.filename)
+                self.services_api.edit_infos_product(product_id, product_img)
+
+            return redirect(url_for('products.productedit', product_id=product_id))

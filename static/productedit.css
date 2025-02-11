@@ -84,7 +84,7 @@ a {
 
 .images-container {
     display: flex;
-    gap: 20px; /* Espaçamento entre as imagens */
+    gap: 20px;
     justify-content: center;
     margin-bottom: 30px;
 }
@@ -92,14 +92,14 @@ a {
 .image-container {
     text-align: center;
     display: flex;
-    flex-direction: column; /* Ajusta as imagens e o botão na vertical */
+    flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
 .product-image {
-    width: 150px; /* Tamanho reduzido das imagens */
-    height: 150px; /* Tamanho reduzido das imagens */
+    width: 150px;
+    height: 150px;
     border-radius: 5px;
     object-fit: contain;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -161,4 +161,25 @@ a {
 
 .save-btn:hover {
     background-color: #218838;
+}
+
+/* Estilização do checkbox */
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #4A00E0; /* Cor do checkbox */
+    transition: transform 0.2s;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #4A00E0;
+    border-color: #4A00E0;
+    transform: scale(1.1); /* Aumenta o tamanho do checkbox quando marcado */
+}
+
+input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }

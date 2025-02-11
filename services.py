@@ -2,8 +2,10 @@ from dataclasses import dataclass
 from token_refresh import TokenRefresh
 from data.dataid import spreadsheet_id
 from database import Shop
+import mimetypes
 import requests
 import json
+
 
 @dataclass
 class Services:
@@ -95,8 +97,43 @@ class Services:
     
       return product
 
-  def edit_infos_product(self,product_id, product_description,product_price, pruduct_img):
-    pass
+  def edit_infos_product(self,product_id,product_img,product_title=None,product_description=None,product_price=None,product_condition =None,product_status=None,product_quantity=None):
+
+    if product_img != None:
+        
+      mime_type, _ = mimetypes.guess_type(product_img.filename)
+
+      url = "https://api.mercadolibre.com/pictures/items/upload"
+
+      payload={}
+      
+      file_content = product_img.read()
+
+      files = [
+          ('file', (product_img.filename, file_content, str(mime_type)))
+      ]
+
+      headers = {
+          'Authorization': f'Bearer {self.access_token}'
+      }
+
+      response = requests.request("POST", url, headers=headers, files=files)
+
+      data = response.json()
+
+      url = f"https://api.mercadolibre.com/items/{product_id}/pictures"
+      payload = json.dumps({
+          "id": f"{data.get('id')}"
+      })
+      headers = {
+          'Authorization': f'Bearer {self.access_token}',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      }
+
+      response = requests.request("POST", url, headers=headers, data=payload)
+
+
   
   def import_orders(self):
 

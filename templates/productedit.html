@@ -25,71 +25,83 @@
             <section class="product-edit">
                 <h1>Edit Product {{ product.id }}</h1>
 
-                <div class="product-details">
-                    
-                    <div class="images-container">
-                        {%for picture in product.pictures%}
-                            <div class="image-container">
-                                <img src="{{picture.secure_url }}" alt="Product Image" class="product-image">
-                                <label for="imageUpload" class="upload-button">Change Image</label>
-                                <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                <form action="{{url_for('products.productupdate', product_id = product.id)}}" method="POST" enctype="multipart/form-data">
+                    <div class="product-details">
+                        
+                        <div class="images-container">
+                            {% for picture in product.pictures %}
+                                <div class="image-container">
+                                    <img src="{{ picture.secure_url }}" alt="Product Image" class="product-image" data-index="{{ loop.index0 }}">
+                                    <label for="imageUpload{{ loop.index0 }}" class="upload-button">Change Image</label>
+                                    <input type="file" id="imageUpload{{ loop.index0 }}" data-index="{{ loop.index0 }}" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                                </div>
+                            {% endfor %}
+                            <label for="newImageUpload" class="upload-button">Add Image</label>
+                            <input type="file" id="newImageUpload" name="newImageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)" />
+                        </div>
+    
+                        <div class="product-info">
+                            <div class="form-group">
+                                <label for="productName">Product Name:</label>
+                                <input type="text" id="productName" value="{{ product.title }}">
                             </div>
-                        {%endfor%}
+                            <div class="form-group">
+                                <label for="productDescription">Description:</label>
+                                <textarea id="productDescription">{{ product.description }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Price (R$):</label>
+                                <input type="text" id="productPrice" value="{{ product.price }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="productCondition">Condition:</label>
+                                <input type="text" id="productCondition" value="{{ product.condition }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="productStatus">Status: {{ product.status }}</label>
+                                <input type="checkbox" id="productStatus" value="{{ product.status }}" {% if product.status == 'active' %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="productQuantity">Quantity:</label>
+                                <input type="text" id="productQuantity" value="{{ product.available_quantity }}">
+                            </div>
+                        </div>
+    
+                        <button type="submit" class="save-btn">Save Changes</button>
                     </div>
-
-                    <!-- Informações do produto abaixo da imagem -->
-                    <div class="product-info">
-                        <div class="form-group">
-                            <label for="productName">Product Name:</label>
-                            <input type="text" id="productName" value="{{ product.title }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="productDescription">Description:</label>
-                            <textarea id="productDescription">{{ product.description }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="productPrice">Price (R$):</label>
-                            <input type="text" id="productPrice" value="{{ product.price }}">
-                        </div>
-                    </div>
-
-                    <button class="save-btn">Save Changes</button>
-                </div>
+                </form>
             </section>
         </main>
     </div>
 
     <script>
-        // Função para pré-visualizar a imagem selecionada
         function previewImage(event) {
             const file = event.target.files[0];
+            const index = event.target.getAttribute('data-index');
             const reader = new FileReader();
 
-            reader.onload = function() {
-                const image = document.querySelector('.product-image');
-                image.src = reader.result;  // Atualiza a imagem com o novo arquivo selecionado
+            reader.onload = function () {
+                if (index !== null) {
+                    const image = document.querySelector(`.product-image[data-index='${index}']`);
+                    if (image) {
+                        image.src = reader.result;
+                    }
+                } else {
+                    const newImageContainer = document.createElement('div');
+                    newImageContainer.classList.add('image-container');
+                    const newImage = document.createElement('img');
+                    newImage.src = reader.result;
+                    newImage.alt = 'New Product Image';
+                    newImage.classList.add('product-image');
+                    newImageContainer.appendChild(newImage);
+                    document.querySelector('.images-container').appendChild(newImageContainer);
+                }
             };
 
             if (file) {
                 reader.readAsDataURL(file);
             }
         }
-
-        // Funcionalidade de salvar
-        document.querySelector('.save-btn').addEventListener('click', function() {
-            const productName = document.getElementById('productName').value;
-            const productDescription = document.getElementById('productDescription').value;
-            const productPrice = document.getElementById('productPrice').value;
-
-            // Enviar os dados para salvar as alterações, por exemplo, com fetch para o backend
-            console.log('Saving Product:', {
-                name: productName,
-                description: productDescription,
-                price: productPrice
-            });
-
-            alert('Changes Saved!');
-        });
     </script>
 </body>
 </html>

@@ -33,7 +33,6 @@
                     <li><a href="{{ url_for('dashboard.userinfo') }}">{{ userinfo_ml['name'] }}</a></li>
                 </div>
             </header>
-
             <!-- Exibir Mensagens de Flash -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
