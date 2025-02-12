@@ -31,6 +31,14 @@ class ProductsRoute:
             
             return render_template('productedit.html', product = product_info)
         
+        @self.blueprint.route('<product_id>/<img_id>/delete')
+        @login_required
+        def imagedelete(product_id,img_id):
+            self.services_api.delete_image_product(product_id,img_id)
+            
+            return redirect(url_for('products.productedit',product_id = product_id))
+
+
         @self.blueprint.route('<product_id>/edit/uptade', methods=['POST'])
         @login_required
         def productupdate(product_id):

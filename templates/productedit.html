@@ -7,33 +7,40 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='productedit.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-    <div class="product-edit-container">
-        <aside class="sidebar">
-            <h2>Panel</h2>
-            <nav>
-                <ul>
-                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-cogs"></i> Settings</a></li>
-                    <li><a href="{{url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
-            </nav>
-        </aside>
+    <body>
+        <div class="product-edit-container">
+            <aside class="sidebar">
+                <h2>Panel</h2>
+                <nav>
+                    <ul>
+                        <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                        <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-cogs"></i> Settings</a></li>
+                        <li><a href="{{url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </nav>
+            </aside>
 
-        <main class="main-content">
-            <section class="product-edit">
-                <h1>Edit Product {{ product.id }}</h1>
-
-                <form action="{{url_for('products.productupdate', product_id = product.id)}}" method="POST" enctype="multipart/form-data">
-                    <div class="product-details">
-                        
+            <main class="main-content">
+                <section class="product-edit">
+                    <h1>Edit Product {{ product.id }}</h1>
+                    <form action="{{url_for('products.productupdate', product_id=product.id)}}" method="POST" enctype="multipart/form-data">
                         <div class="images-container">
                             {% for picture in product.pictures %}
                                 <div class="image-container">
-                                    <img src="{{ picture.secure_url }}" alt="Product Image" class="product-image" data-index="{{ loop.index0 }}">
-                                    <label for="imageUpload{{ loop.index0 }}" class="upload-button">Change Image</label>
-                                    <input type="file" id="imageUpload{{ loop.index0 }}" data-index="{{ loop.index0 }}" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                                    <img src="{{ picture.secure_url }}" alt="Product Image" class="product-image">
+                                    <div class="button-group">
+                                        <button class="action-button edit-button">
+                                            <i class="fas fa-edit"></i> Change
+                                            <input type="file" id="imageUpload{{ loop.index0 }}" name="imageUpload{{ loop.index0 }}" style="display: none;">
+                                        </button>
+                                        <button class="action-button delete-button">
+                                            <a href="{{url_for('products.imagedelete', product_id=product.id, img_id = picture.id)}}">
+                                            <i class="fas fa-trash"></i> Delete
+                                            <input type="submit" id="imageDelete{{ loop.index0 }}" name="imageDelete{{ loop.index0 }}" style="display: none;">
+                                            </a>
+                                        </button>
+                                    </div>
                                 </div>
                             {% endfor %}
                             <label for="newImageUpload" class="upload-button">Add Image</label>
@@ -43,36 +50,34 @@
                         <div class="product-info">
                             <div class="form-group">
                                 <label for="productName">Product Name:</label>
-                                <input type="text" name="productName" id="productName" value="{{ product.title }}">
+                                <input type="text" name="productName" value="{{ product.title }}">
                             </div>
                             <div class="form-group">
                                 <label for="productDescription">Description:</label>
-                                <textarea id="productDescription">{{ product.description }}</textarea>
+                                <textarea name="productDescription">{{ product.description }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="productPrice">Price (R$):</label>
-                                <input type="text" id="productPrice" value="{{ product.price }}">
+                                <input type="text" name="productPrice" value="{{ product.price }}">
                             </div>
                             <div class="form-group">
                                 <label for="productCondition">Condition:</label>
-                                <input type="text" id="productCondition" value="{{ product.condition }}">
+                                <input type="text" name="productCondition" value="{{ product.condition }}">
                             </div>
                             <div class="form-group">
-                                <label for="productStatus">Status: {{ product.status }}</label>
-                                <input type="checkbox" id="productStatus" value="{{ product.status }}" {% if product.status == 'active' %} checked {% endif %}>
+                                <label for="productStatus">Status:</label>
+                                <input type="checkbox" name="productStatus" {% if product.status == 'active' %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="productQuantity">Quantity:</label>
-                                <input type="text" id="productQuantity" value="{{ product.available_quantity }}">
+                                <input type="text" name="productQuantity" value="{{ product.available_quantity }}">
                             </div>
+                            <button type="submit" class="save-btn">Save Changes</button>
                         </div>
-    
-                        <button type="submit" class="save-btn">Save Changes</button>
-                    </div>
-                </form>
-            </section>
-        </main>
-    </div>
+                    </form>
+                </section>
+            </main>
+        </div>
 
     <script>
         function previewImage(event) {
@@ -103,5 +108,5 @@
             }
         }
     </script>
-</body>
+    </body>
 </html>

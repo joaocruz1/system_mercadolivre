@@ -146,10 +146,15 @@ class Services:
       }
 
       response = requests.request("PUT", url, headers=headers, data=payload)
-      print(response)
+  
+  def delete_image_product(self,product_id, img_id):
 
+    url = f"https://api.mercadolibre.com/items/{product_id}/pictures/{img_id}?access_token={self.access_token}"
 
+    payload = {}
+    headers = {}
 
+    response = requests.request("DELETE", url, headers=headers, data=payload)
   
   def import_orders(self):
 
