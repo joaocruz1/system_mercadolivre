@@ -96,8 +96,21 @@ class Services:
       product = response.json()
     
       return product
+  
+  def import_description_product(self, product_id):
+      url = f"https://api.mercadolibre.com/items/{product_id}/description"
 
-  def edit_infos_product(self,product_id,product_img,product_title,product_description=None,product_price=None,product_condition =None,product_status=None,product_quantity=None):
+      payload = {}
+      headers = {
+        'Authorization': f'Bearer {self.access_token}'
+      }
+
+      response = requests.request("GET", url, headers=headers, data=payload)
+      data = response.json()
+
+      return data
+
+  def edit_infos_product(self,product_id,product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity):
 
     if product_img != None:
 
@@ -146,6 +159,34 @@ class Services:
       }
 
       response = requests.request("PUT", url, headers=headers, data=payload)
+    
+    if product_description != None:
+      url = f"https://api.mercadolibre.com/items/{product_id}/description"
+
+      payload = json.dumps({
+        "plain_text": f"{product_description}"
+      })
+      headers = {
+        'Authorization': f'Bearer {self.access_token}',
+        'Content-Type': 'application/json'
+      }
+
+      response = requests.request("PUT", url, headers=headers, data=payload)
+    
+    if product_price != None:
+
+      url = f"https://api.mercadolibre.com/items/{product_id}"
+
+      payload = json.dumps({
+        "price": float(product_price)
+      })
+      headers = {
+        'Authorization': f'Bearer {self.access_token}',
+        'Content-Type': 'application/json'
+      }
+
+      response = requests.request("PUT", url, headers=headers, data=payload)
+
   
   def delete_image_product(self,product_id, img_id):
 
