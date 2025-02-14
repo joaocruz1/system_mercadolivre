@@ -56,7 +56,6 @@ class ProductsRoute:
             if product_img is None:
                 self.services_api.edit_infos_product(product_id, None, None, None, None, None, None, None)
             else:
-                print("Imagem recebida:", product_img.filename)
                 self.services_api.edit_infos_product(product_id, product_img, None, None, None, None, None, None)
             
             if not product_title and not product_description and not product_price and not product_condition and not product_status and not product_quantity:
@@ -72,6 +71,11 @@ class ProductsRoute:
                 self.services_api.edit_infos_product(product_id, None, None, None, product_price, None, None, None)
 
             if product_condition != "":
-                pass    
+                self.services_api.edit_infos_product(product_id, None, None, None, None, product_condition, None, None) 
+
+            if product_status != "":
+                self.services_api.edit_infos_product(product_id, None, None, None, None, None, product_status, None) 
+            
+              
 
             return redirect(url_for('products.productedit', product_id=product_id))

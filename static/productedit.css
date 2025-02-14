@@ -10,11 +10,10 @@ body {
     color: #333;
 }
 
-a{
+a {
     text-decoration: none;
     color: #fff;
 }
-
 
 .product-edit-container {
     display: flex;
@@ -30,7 +29,7 @@ a{
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Garante que os itens fiquem na parte inferior */
+    justify-content: flex-end;
 }
 
 .sidebar h2 {
@@ -42,7 +41,7 @@ a{
     list-style: none;
 }
 
-.sidebar nav ul li{
+.sidebar nav ul li {
     margin: 10px 0;
 }
 
@@ -57,7 +56,6 @@ a{
     border-radius: 5px;
     transition: background 0.3s;
 }
-
 
 .sidebar nav ul li a:hover {
     background: #8E2DE2;
@@ -171,11 +169,49 @@ a{
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4A00E0;
+    box-shadow: 0 0 5px rgba(74, 0, 224, 0.3);
+}
+
+.form-group input:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+    border-color: #8E2DE2;
+}
+
+.form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.select-container {
+    position: relative;
+}
+
+.select-container::after {
+    content: '\f0d7'; /* Font Awesome arrow-down icon */
+    font-family: 'Font Awesome 5 Free';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 900;
+    color: #333;
+    pointer-events: none;
 }
 
 .save-btn {

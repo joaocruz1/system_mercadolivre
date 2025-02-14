@@ -7,100 +7,99 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='productedit.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-    <body>
-        <div class="product-edit-container">
-            <aside class="sidebar">
-                <h2>Panel</h2>
-                <nav>
-                    <ul>
-                        <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                        <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-cogs"></i> Settings</a></li>
-                        <li><a href="{{url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                    </ul>
-                </nav>
-            </aside>
+<body>
+    <div class="product-edit-container">
+        <aside class="sidebar">
+            <h2>Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="{{url_for('dashboard.dashboard')}}"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="{{url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-            <main class="main-content">
-                <section class="product-edit">
-                    <h1>Edit Product {{ product.id }}</h1>
-                    <form action="{{url_for('products.productupdate', product_id=product.id)}}" method="POST" enctype="multipart/form-data">
-                        <div class="images-container">
-                            {% for picture in product.pictures %}
-                                <div class="image-container">
-                                    <img src="{{ picture.secure_url }}" alt="Product Image" class="product-image">
-                                    <div class="button-group">
-                                        <button class="action-button edit-button">
-                                            <i class="fas fa-edit"></i> Change
-                                            <input type="file" id="imageUpload{{ loop.index0 }}" name="imageUpload{{ loop.index0 }}" style="display: none;">
-                                        </button>
-                                        <button class="action-button delete-button">
-                                            <a href="{{url_for('products.imagedelete', product_id=product.id, img_id = picture.id)}}">
+        <main class="main-content">
+            <section class="product-edit">
+                <h1>Edit Product {{ product.id }}</h1>
+                <form action="{{url_for('products.productupdate', product_id=product.id)}}" method="POST" enctype="multipart/form-data">
+                    <div class="images-container">
+                        {% for picture in product.pictures %}
+                            <div class="image-container">
+                                <img src="{{ picture.secure_url }}" alt="Product Image" class="product-image">
+                                <div class="button-group">
+                                    <button class="action-button edit-button">
+                                        <i class="fas fa-edit"></i> Change
+                                        <input type="file" id="imageUpload{{ loop.index0 }}" name="imageUpload{{ loop.index0 }}" style="display: none;">
+                                    </button>
+                                    <button class="action-button delete-button">
+                                        <a href="{{url_for('products.imagedelete', product_id=product.id, img_id = picture.id)}}">
                                             <i class="fas fa-trash"></i> Delete
                                             <input type="submit" id="imageDelete{{ loop.index0 }}" name="imageDelete{{ loop.index0 }}" style="display: none;">
-                                            </a>
-                                        </button>
-                                    </div>
+                                        </a>
+                                    </button>
                                 </div>
-                            {% endfor %}
-                            <label for="newImageUpload" class="upload-button">Add Image</label>
-                            <input type="file" id="newImageUpload" name="newImageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)" />
+                            </div>
+                        {% endfor %}
+                        <label for="newImageUpload" class="upload-button">Add Image</label>
+                        <input type="file" id="newImageUpload" name="newImageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)" />
+                    </div>
+
+                    <div class="product-info">
+                        <div class="form-group">
+                            <label for="productName">Product Name:</label>
+                            <input type="text" name="productName" value="{{ product.title }}">
                         </div>
-    
-                        <div class="product-info">
-                            <div class="form-group">
-                                <label for="productName">Product Name:</label>
-                                <input type="text" name="productName" value="{{ product.title }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="productDescription">Description:</label>
-                                <textarea name="productDescription">{{ product_description.plain_text }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="productPrice">Price (R$):</label>
-                                <input type="text" name="productPrice" value="{{ product.price }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="productCondition">Condition:</label>
-                                <input type="text" name="productCondition" value="{{ product.condition }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="productStatus">Status:</label>
-                                <input type="checkbox" name="productStatus" {% if product.status == 'active' %} checked {% endif %}>
-                            </div>
-                            <div class="form-group">
-                                <label for="productQuantity">Quantity:</label>
-                                <input type="text" name="productQuantity" value="{{ product.available_quantity }}">
-                            </div>
-                            <button type="submit" class="save-btn">Save Changes</button>
+                        <div class="form-group">
+                            <label for="productDescription">Description:</label>
+                            <textarea name="productDescription">{{ product_description.plain_text }}</textarea>
                         </div>
-                    </form>
-                </section>
-            </main>
-        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Price (R$):</label>
+                            <input type="text" name="productPrice" value="{{ product.price }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="productCondition">Condition:</label>
+                            <select id="productCondition" name="productCondition">
+                                <option value="used" {% if product.condition == "used" %}selected{% endif %}>Used</option>
+                                <option value="not_specified" {% if product.condition == "not_specified" %}selected{% endif %}>Not Specifed</option>
+                                <option value="new" {% if product.condition == "new" %}selected{% endif %}>New</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productStatus">Status:</label>
+                            <select id="productStatus" name="productStatus">
+                                <option value="active" {% if product.status == "active" %}selected{% endif %}>Active</option>
+                                <option value="paused" {% if product.status == "paused" %}selected{% endif %}>Paused</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productQuantity">Quantity:</label>
+                            <input type="number" name="productQuantity" value="{{ product.available_quantity }}">
+                        </div>
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
 
     <script>
         function previewImage(event) {
             const file = event.target.files[0];
-            const index = event.target.getAttribute('data-index');
             const reader = new FileReader();
 
             reader.onload = function () {
-                if (index !== null) {
-                    const image = document.querySelector(`.product-image[data-index='${index}']`);
-                    if (image) {
-                        image.src = reader.result;
-                    }
-                } else {
-                    const newImageContainer = document.createElement('div');
-                    newImageContainer.classList.add('image-container');
-                    const newImage = document.createElement('img');
-                    newImage.src = reader.result;
-                    newImage.alt = 'New Product Image';
-                    newImage.classList.add('product-image');
-                    newImageContainer.appendChild(newImage);
-                    document.querySelector('.images-container').appendChild(newImageContainer);
-                }
+                const newImageContainer = document.createElement('div');
+                newImageContainer.classList.add('image-container');
+                const newImage = document.createElement('img');
+                newImage.src = reader.result;
+                newImage.alt = 'New Product Image';
+                newImage.classList.add('product-image');
+                newImageContainer.appendChild(newImage);
+                document.querySelector('.images-container').appendChild(newImageContainer);
             };
 
             if (file) {
@@ -108,5 +107,5 @@
             }
         }
     </script>
-    </body>
+</body>
 </html>

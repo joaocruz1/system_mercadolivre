@@ -186,6 +186,40 @@ class Services:
       }
 
       response = requests.request("PUT", url, headers=headers, data=payload)
+    
+    if product_condition != None:
+
+      url = f"https://api.mercadolibre.com/items/{product_id}"
+
+      payload = json.dumps({
+        "condition": f"{str(product_condition)}"
+      })
+      headers = {
+        'Authorization': f'Bearer {self.access_token}',
+        'Content-Type': 'application/json'
+      }
+    
+      response = requests.request("PUT", url, headers=headers, data=payload)
+
+
+    if product_status != None:
+
+      url = f"https://api.mercadolibre.com/items/{product_id}"
+
+      payload = json.dumps({
+        "status": f"{str(product_status)}"
+      })
+      headers = {
+        'Authorization': f'Bearer {self.access_token}',
+        'Content-Type': 'application/json'
+      }
+
+      response = requests.request("PUT", url, headers=headers, data=payload)
+    
+    
+
+
+
 
   
   def delete_image_product(self,product_id, img_id):
