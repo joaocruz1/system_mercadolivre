@@ -21,8 +21,19 @@ class ProductsRoute:
         def products():
             products_infos = self.services_api.import_info_products_list(self.services_api.import_id_products())
    
-            return render_template('products.html',products_infos=products_infos)
+            return render_template('products/products.html',products_infos=products_infos)
         
+        @self.blueprint.route('/newcategory')
+        @login_required
+        def newcategoryproduct():
+            categories = self.services_api.import_categories()
+
+            return render_template('products/productcategorynew.html', categories=categories)
+        
+        @self.blueprint.route('/new')
+        def newproduct():
+            category_id = request.form['']
+
         @self.blueprint.route('<product_id>/edit')
         @login_required
         def productedit(product_id):
@@ -30,7 +41,7 @@ class ProductsRoute:
             product_info = self.services_api.import_info_product(product_id)
             product_description = self.services_api.import_description_product(product_id)
             
-            return render_template('productedit.html', product = product_info, product_description = product_description)
+            return render_template('products/productedit.html', product = product_info, product_description = product_description)
         
         @self.blueprint.route('<product_id>/<img_id>/delete')
         @login_required
@@ -44,7 +55,7 @@ class ProductsRoute:
         @login_required
         def productupdate(product_id):
         
-            product_img = request.files.get('newImageUpload', None)
+            product_img = request.files.get('products/newImageUpload', None)
 
             product_title = request.form['productName']
             product_description = request.form['productDescription']
@@ -74,7 +85,10 @@ class ProductsRoute:
                 self.services_api.edit_infos_product(product_id, None, None, None, None, product_condition, None, None) 
 
             if product_status != "":
-                self.services_api.edit_infos_product(product_id, None, None, None, None, None, product_status, None) 
+                self.services_api.edit_infos_product(product_id, None, None, None, None, None, product_status, None)
+
+            if product_quantity != "":
+                self.services_api.edit_infos_product(product_id, None, None, None, None, None, None, product_quantity) 
             
               
 

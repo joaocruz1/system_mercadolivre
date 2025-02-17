@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='productcategorynew.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="categories-container">
+        <!-- Menu lateral -->
+        <aside class="sidebar">
+            <h2>Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('dashboard.dashboard') }}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="{{ url_for('login.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <section class="categories">
+                <h1>Select Category and Subcategory</h1>
+                
+                <!-- Barra de pesquisa -->
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search categories..." id="searchInput">
+                </div>
+
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="productCategory">Category:</label>
+                        <select id="productCategory" name="productCategory" onchange="updateSubcategories()">
+                            <option value="">Select a category</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" data-subcategories='{{ category.subcategories | tojson | safe }}'>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="subcategoryContainer" style="display: none;">
+                        <label for="productSubcategory">Subcategory:</label>
+                        <select id="productSubcategory" name="productSubcategory">
+                            <option value="">Select a subcategory</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="save-btn">Proceed</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Função de pesquisa para filtrar as categorias
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const categorySelect = document.getElementById("productCategory");
+            const options = categorySelect.options;
+
+            for (let i = 1; i < options.length; i++) { // Começa em 1 para ignorar a primeira opção padrão
+                const optionText = options[i].text.toLowerCase();
+                if (optionText.includes(searchValue)) {
+                    options[i].style.display = "block";
+                } else {
+                    options[i].style.display = "none";
+                }
+            }
+        });
+
+        // Atualiza as subcategorias com base na categoria selecionada
+        function updateSubcategories() {
+            const categorySelect = document.getElementById("productCategory");
+            const subcategorySelect = document.getElementById("productSubcategory");
+            const subcategoryContainer = document.getElementById("subcategoryContainer");
+
+            subcategorySelect.innerHTML = '<option value="">Select a subcategory</option>';
+
+            const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+            const subcategories = JSON.parse(selectedOption.getAttribute("data-subcategories") || "[]");
+
+            if (subcategories.length > 0) {
+                subcategories.forEach(sub => {
+                    let option = document.createElement("option");
+                    option.value = sub.name;
+                    option.textContent = sub.name;
+                    subcategorySelect.appendChild(option);
+                });
+                subcategoryContainer.style.display = "block";
+            } else {
+                subcategoryContainer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -110,20 +110,20 @@ class Services:
 
       return data
 
-  def edit_infos_product(self,product_id,product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity):
+  def edit_infos_product(self,product_id,new_product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity):
 
-    if product_img != None:
+    if new_product_img != None:
 
-      mime_type, _ = mimetypes.guess_type(product_img.filename)
+      mime_type, _ = mimetypes.guess_type(new_product_img.filename)
 
       url = "https://api.mercadolibre.com/pictures/items/upload"
 
       payload={}
       
-      file_content = product_img.read()
+      file_content = new_product_img.read()
 
       files = [
-          ('file', (product_img.filename, file_content, str(mime_type)))
+          ('file', (new_product_img.filename, file_content, str(mime_type)))
       ]
 
       headers = {
@@ -190,7 +190,7 @@ class Services:
     if product_condition != None:
 
       url = f"https://api.mercadolibre.com/items/{product_id}"
-
+    
       payload = json.dumps({
         "condition": f"{str(product_condition)}"
       })
@@ -216,6 +216,19 @@ class Services:
 
       response = requests.request("PUT", url, headers=headers, data=payload)
     
+    if product_quantity != None:
+
+      url = f"https://api.mercadolibre.com/items/{product_id}"
+
+      payload = json.dumps({
+        "available_quantity": f"{int(product_quantity)}"
+      })
+      headers = {
+        'Authorization': f'Bearer {self.access_token}',
+        'Content-Type': 'application/json'
+      }
+
+      response = requests.request("PUT", url, headers=headers, data=payload)
     
 
 

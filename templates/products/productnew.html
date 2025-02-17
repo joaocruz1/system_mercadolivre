@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='productnew.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="product-edit-container">
+        <aside class="sidebar">
+            <h2>Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section class="product-edit">
+                <h1>Add New Product</h1>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <div class="thumbnail-section">
+                        <h2>Product Thumbnail</h2>
+                        <div class="thumbnail-container">
+                            <img src="https://via.placeholder.com/150" alt="Product Thumbnail" class="thumbnail-image">
+                            <div class="thumbnail-buttons">
+                                <label for="thumbnailUpload" class="action-button edit-button">
+                                    <i class="fas fa-edit"></i> Change
+                                </label>
+                                <input type="file" id="thumbnailUpload" name="thumbnailUpload" hidden>
+                                <button type="button" class="action-button delete-button">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                        <label for="newImageUpload" class="upload-button">
+                            <i class="fas fa-plus"></i> Add Image
+                        </label>
+                        <input type="file" id="newImageUpload" name="newImageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                    </div>
+                    <div class="pictures-container"></div>
+                    
+                    <div class="product-info">
+                        <div class="form-group">
+                            <label for="productName">Product Name:</label>
+                            <input type="text" name="productName" placeholder="Enter product name" class="styled-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="productDescription">Description:</label>
+                            <textarea name="productDescription" placeholder="Enter product description" class="styled-input"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Category</label>
+                            <select id="productCategory" name="productCategory" onchange="updateSubcategories()">
+                                <option value="">Select a category</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.name }}" data-subcategories='{{ category.subcategories | tojson | safe }}'>
+                                        {{ category.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="subcategoryContainer" style="display: none;">
+                            <label for="productSubcategory">Subcategory</label>
+                            <select id="productSubcategory" name="productSubcategory">
+                                <option value="">Select a subcategory</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Price (R$):</label>
+                            <input type="text" name="productPrice" placeholder="Enter product price" class="styled-input">
+                        </div>
+                        <button type="submit" class="save-btn">Add Product</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+
+function updateSubcategories() {
+        const categorySelect = document.getElementById("productCategory");
+        const subcategorySelect = document.getElementById("productSubcategory");
+        const subcategoryContainer = document.getElementById("subcategoryContainer");
+
+        subcategorySelect.innerHTML = '<option value="">Select a subcategory</option>';
+
+        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+        const subcategories = JSON.parse(selectedOption.getAttribute("data-subcategories") || "[]");
+
+        if (subcategories.length > 0) {
+            subcategories.forEach(sub => {
+                let option = document.createElement("option");
+                option.value = sub.name;
+                option.textContent = sub.name;
+                subcategorySelect.appendChild(option);
+            });
+            subcategoryContainer.style.display = "block";
+        } else {
+            subcategoryContainer.style.display = "none";
+        }
+    }
+
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            const newImageContainer = document.createElement('div');
+            newImageContainer.classList.add('picture-container');
+            const newImage = document.createElement('img');
+            newImage.src = reader.result;
+            newImage.alt = 'New Product Image';
+            newImage.classList.add('picture-image');
+            newImageContainer.appendChild(newImage);
+            document.querySelector('.pictures-container').appendChild(newImageContainer);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+    </script>
+</body>
+</html>

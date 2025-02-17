@@ -25,28 +25,49 @@
             <section class="product-edit">
                 <h1>Edit Product {{ product.id }}</h1>
                 <form action="{{url_for('products.productupdate', product_id=product.id)}}" method="POST" enctype="multipart/form-data">
-                    <div class="images-container">
-                        {% for picture in product.pictures %}
-                            <div class="image-container">
-                                <img src="{{ picture.secure_url }}" alt="Product Image" class="product-image">
-                                <div class="button-group">
-                                    <button class="action-button edit-button">
-                                        <i class="fas fa-edit"></i> Change
-                                        <input type="file" id="imageUpload{{ loop.index0 }}" name="imageUpload{{ loop.index0 }}" style="display: none;">
-                                    </button>
-                                    <button class="action-button delete-button">
-                                        <a href="{{url_for('products.imagedelete', product_id=product.id, img_id = picture.id)}}">
-                                            <i class="fas fa-trash"></i> Delete
-                                            <input type="submit" id="imageDelete{{ loop.index0 }}" name="imageDelete{{ loop.index0 }}" style="display: none;">
-                                        </a>
-                                    </button>
-                                </div>
+                    <!-- Thumbnail Section -->
+                    <div class="thumbnail-section">
+                        <h2>Product Thumbnail</h2>
+                        <div class="thumbnail-container">
+                            <img src="{{ product.thumbnail }}" alt="Product Thumbnail" class="thumbnail-image">
+                            <div class="thumbnail-buttons">
+                                <label for="thumbnailUpload" class="action-button edit-button">
+                                    <i class="fas fa-edit"></i> Change
+                                </label>
+                                <input type="file" id="thumbnailUpload" name="thumbnailUpload" style="display: none;">
+                                <a href="{{url_for('products.imagedelete', product_id=product.id, img_id=product.thumbnail_id)}}" class="action-button delete-button">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
                             </div>
-                        {% endfor %}
-                        <label for="newImageUpload" class="upload-button">Add Image</label>
-                        <input type="file" id="newImageUpload" name="newImageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)" />
+                        </div>
                     </div>
 
+                    <!-- Pictures Section -->
+                    <div class="pictures-section">
+                        <h2>Product Pictures</h2>
+                        <div class="pictures-container">
+                            {% for picture in product.pictures %}
+                                <div class="picture-container">
+                                    <img src="{{ picture.secure_url }}" alt="Product Image" class="picture-image">
+                                    <div class="picture-buttons">
+                                        <label for="imageUpload{{ loop.index0 }}" class="action-button edit-button">
+                                            <i class="fas fa-edit"></i> Change
+                                        </label>
+                                        <input type="file" id="imageUpload{{ loop.index0 }}" name="imageUpload{{ loop.index0 }}" style="display: none;">
+                                        <a href="{{url_for('products.imagedelete', product_id=product.id, img_id=picture.id)}}" class="action-button delete-button">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <label for="newImageUpload" class="upload-button">
+                                <i class="fas fa-plus"></i> Add Image
+                            </label>
+                            <input type="file" id="newImageUpload" name="newImageUpload" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                        </div>
+                    </div>
+
+                    <!-- Product Info Section -->
                     <div class="product-info">
                         <div class="form-group">
                             <label for="productName">Product Name:</label>
@@ -64,7 +85,7 @@
                             <label for="productCondition">Condition:</label>
                             <select id="productCondition" name="productCondition">
                                 <option value="used" {% if product.condition == "used" %}selected{% endif %}>Used</option>
-                                <option value="not_specified" {% if product.condition == "not_specified" %}selected{% endif %}>Not Specifed</option>
+                                <option value="not_specified" {% if product.condition == "not_specified" %}selected{% endif %}>Not Specified</option>
                                 <option value="new" {% if product.condition == "new" %}selected{% endif %}>New</option>
                             </select>
                         </div>
@@ -93,13 +114,13 @@
 
             reader.onload = function () {
                 const newImageContainer = document.createElement('div');
-                newImageContainer.classList.add('image-container');
+                newImageContainer.classList.add('picture-container');
                 const newImage = document.createElement('img');
                 newImage.src = reader.result;
                 newImage.alt = 'New Product Image';
-                newImage.classList.add('product-image');
+                newImage.classList.add('picture-image');
                 newImageContainer.appendChild(newImage);
-                document.querySelector('.images-container').appendChild(newImageContainer);
+                document.querySelector('.pictures-container').appendChild(newImageContainer);
             };
 
             if (file) {
