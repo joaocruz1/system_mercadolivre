@@ -301,6 +301,18 @@ class Services:
       )
     return categories
 
+  def import_category_attributes(self,category_id):
+
+    url = f"https://api.mercadolibre.com/categories/{category_id}/attributes"
+
+    payload = {}
+    headers = {
+      'Authorization': f'Bearer {self.access_token}'
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    return response.json()
     
   def publi_product(self,title,category_id,price,avaible_quantity,listing_type_id,condition,description,pictures):
 

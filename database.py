@@ -22,5 +22,5 @@ class User(UserMixin, Model):
     # Método is_active necessário para Flask-Login
     @property
     def is_active(self):
-        # Retorna True para indicar que o usuário está ativo
+
         return True

@@ -30,9 +30,19 @@ class ProductsRoute:
 
             return render_template('products/productcategorynew.html', categories=categories)
         
-        @self.blueprint.route('/new')
+        @self.blueprint.route('/new', methods=['POST'])
+        @login_required
         def newproduct():
-            category_id = request.form['']
+
+            if request.form['productSubcategory'] != "":
+                category = request.form['productSubcategory']
+            else:
+                category = request.form['productCategory']
+            
+            category_attributes = self.services_api.import_category_attributes(category)
+            
+            return render_template('products/productnew.html', category_attributes=category_attributes)
+
 
         @self.blueprint.route('<product_id>/edit')
         @login_required

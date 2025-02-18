@@ -27,12 +27,17 @@
             <section class="categories">
                 <h1>Select Category and Subcategory</h1>
                 
-                <!-- Barra de pesquisa -->
+                <!-- Barra de pesquisa com sugestões -->
                 <div class="search-bar">
-                    <input type="text" class="search-input" placeholder="Search categories..." id="searchInput">
+                    <input type="text" class="search-input" placeholder="Search categories..." id="searchInput" list="categorySuggestions">
+                    <datalist id="categorySuggestions">
+                        {% for category in categories %}
+                            <option value="{{ category.name }}" data-id="{{ category.id }}" data-subcategories='{{ category.subcategories | tojson | safe }}'></option>
+                        {% endfor %}
+                    </datalist>
                 </div>
 
-                <form action="" method="POST">
+                <form action="{{url_for('products.newproduct')}}" method="POST">
                     <div class="form-group">
                         <label for="productCategory">Category:</label>
                         <select id="productCategory" name="productCategory" onchange="updateSubcategories()">
@@ -59,22 +64,6 @@
     </div>
 
     <script>
-        // Função de pesquisa para filtrar as categorias
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const searchValue = this.value.toLowerCase();
-            const categorySelect = document.getElementById("productCategory");
-            const options = categorySelect.options;
-
-            for (let i = 1; i < options.length; i++) { // Começa em 1 para ignorar a primeira opção padrão
-                const optionText = options[i].text.toLowerCase();
-                if (optionText.includes(searchValue)) {
-                    options[i].style.display = "block";
-                } else {
-                    options[i].style.display = "none";
-                }
-            }
-        });
-
         // Atualiza as subcategorias com base na categoria selecionada
         function updateSubcategories() {
             const categorySelect = document.getElementById("productCategory");
@@ -89,7 +78,7 @@
             if (subcategories.length > 0) {
                 subcategories.forEach(sub => {
                     let option = document.createElement("option");
-                    option.value = sub.name;
+                    option.value = sub.id;
                     option.textContent = sub.name;
                     subcategorySelect.appendChild(option);
                 });
@@ -98,6 +87,22 @@
                 subcategoryContainer.style.display = "none";
             }
         }
+
+        // Atualiza o select de categorias quando uma sugestão é selecionada
+        document.getElementById("searchInput").addEventListener("input", function() {
+            const searchValue = this.value;
+            const categorySelect = document.getElementById("productCategory");
+            const options = categorySelect.options;
+
+            // Encontra a categoria correspondente ao valor digitado
+            for (let i = 1; i < options.length; i++) {
+                if (options[i].text === searchValue) {
+                    categorySelect.value = options[i].value;
+                    updateSubcategories();
+                    break;
+                }
+            }
+        });
     </script>
 </body>
 </html>
