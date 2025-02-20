@@ -1,142 +1,170 @@
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    a{
-        text-decoration: none;
-        color: #4A00E0;
-    }
+a{
+    text-decoration: none;
+    color: #4A00E0;
+}
 
-    .products-container {
-        display: flex;
-        height: 100vh;
-        background-color: #f5f5f5;
-        font-family: Arial, sans-serif;
-    }
+.products-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
 
-    .sidebar {
-        width: 250px;
-        background: #4A00E0;
-        color: #fff;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: fixed;
-        height: 100%;
-    }
+.sidebar {
+    width: 250px;
+    background: #4A00E0;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    height: 100%;
+}
 
-    .sidebar h2 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-        text-align: center;
-    }
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
 
-    .sidebar nav ul {
-        list-style: none;
-    }
+.sidebar nav ul {
+    list-style: none;
+}
 
-    .sidebar nav ul li {
-        margin: 10px 0;
-    }
+.sidebar nav ul li {
+    margin: 10px 0;
+}
 
-    .sidebar nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        transition: background 0.3s;
-    }
+.sidebar nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
 
-    .sidebar nav ul li a:hover {
-        background: #8E2DE2;
-    }
+.sidebar nav ul li a:hover {
+    background: #8E2DE2;
+}
 
-    .main-content {
-        height: 100vh;
-        overflow-y: auto;
-        flex: 1;
-        margin-left: 270px;
-        padding: 20px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+.main-content {
+    height: 100vh;
+    overflow-y: auto;
+    flex: 1;
+    margin-left: 270px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-    .products h1 {
-        font-size: 1.8rem;
-        color: #333;
-        margin-bottom: 20px;
-    }
+.products h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
 
-    .search-bar {
-        margin-bottom: 20px;
-    }
+.search-bar {
+    margin-bottom: 20px;
+}
 
-    .search-input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-    }
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
 
-    .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-    }
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
 
-    .product-item {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
-        max-height: 400px; /* Limite de altura do container */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center; /* Centraliza o conteúdo horizontalmente */
-    }
+.product-item {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    max-height: 400px; /* Limite de altura do container */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; /* Centraliza o conteúdo horizontalmente */
+}
 
-    .product-item:hover {
-        transform: scale(1.05);
-    }
+.product-item:hover {
+    transform: scale(1.05);
+}
 
-    .product-image {
-        width: 100%;
-        max-width: 200px;  /* Limite de largura máxima */
-        max-height: 200px; /* Limite de altura máxima */
-        border-radius: 5px;
-        object-fit: contain; /* Ajusta a imagem sem cortar */
-        margin-bottom: 15px;
-    }
+.product-image {
+    width: 100%;
+    max-width: 200px;  /* Limite de largura máxima */
+    max-height: 200px; /* Limite de altura máxima */
+    border-radius: 5px;
+    object-fit: contain; /* Ajusta a imagem sem cortar */
+    margin-bottom: 15px;
+}
 
-    .product-info {
-        text-align: center;
-    }
+.product-info {
+    text-align: center;
+}
 
-    .product-name {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+.product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 
-    .product-description {
-        font-size: 1rem;
-        color: #666;
-        margin-bottom: 15px;
-    }
+.product-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
 
-    .product-price {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #4A00E0;
-    }
+.product-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4A00E0;
+}
+
+.new-product-btn-container {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.new-product-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #4A00E0;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.new-product-btn:hover {
+    background: #8E2DE2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.new-product-btn i {
+    font-size: 16px;
+}

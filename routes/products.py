@@ -41,7 +41,30 @@ class ProductsRoute:
             
             category_attributes = self.services_api.import_category_attributes(category)
             
-            return render_template('products/productnew.html', category_attributes=category_attributes)
+            return render_template('products/productnew.html', category_attributes=category_attributes, category_id = category)
+
+        @self.blueprint.route('<category_id>/newuptade', methods=['POST'])
+        @login_required
+        def newproductupdate(category_id):
+            
+            name = request.form['productName']
+            description = request.form['productDescription']
+            price = request.form['productPrice']
+            condition = request.form['productCondition']
+            avaiilable_quantity = request.form['productQuantity'] 
+            attributes = self.services_api.import_category_attributes(category_id)
+            attributes_request = []
+
+            for attribute in attributes:
+                if request.form[attribute['id']] != "":
+                    attributes_request.append({
+                        'id': attribute['id'],
+                        'value_name': request.form[attribute['id']]
+                    })
+
+            self.services_api.publi_product(name,category_id,price,avaiilable_quantity,condition,description,attributes_request)
+
+            return redirect(url_for('products.products'))
 
 
         @self.blueprint.route('<product_id>/edit')

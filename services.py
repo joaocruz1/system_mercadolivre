@@ -314,20 +314,21 @@ class Services:
 
     return response.json()
     
-  def publi_product(self,title,category_id,price,avaible_quantity,listing_type_id,condition,description,pictures):
+  def publi_product(self,title,category_id,price,avaible_quantity,condition,description, attributes):
+
 
     url = "https://api.mercadolibre.com/items"
 
     payload = json.dumps({
-      "title": "Mochila cinza",
-      "category_id": "MLB277590",
-      "price": 1500,
+      "title": f"{title}",
+      "category_id": f"{category_id}",
+      "price": price,
       "currency_id": "BRL",
-      "available_quantity": 5,
+      "available_quantity": avaible_quantity,
       "buying_mode": "buy_it_now",
       "listing_type_id": "gold_special",
-      "condition": "new",
-      "description": "mochilaboa.",
+      "condition": f"{condition}",
+      "description": f"{description}",
       "pictures": [
         {
           "source": "URL_DA_IMAGEM_1"
@@ -340,16 +341,7 @@ class Services:
         "mode": "me2",
         "free_shipping": True
       },
-      "attributes": [
-        {
-          "id": "BRAND",
-          "value_name": "Marca Exemplo"
-        },
-        {
-          "id": "PART_NUMBER",
-          "value_name": "123456"
-        }
-      ]
+      "attributes": attributes
     })
     headers = {
       'Authorization': f'Bearer {self.access_token}',

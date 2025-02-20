@@ -32,6 +32,13 @@
                     <input type="text" class="search-input" placeholder="Search products..." id="searchInput">
                 </div>
 
+                <div class="new-product-btn-container">
+                    <a href="{{url_for('products.newcategoryproduct')}}" class="new-product-btn">
+                        <i class="fas fa-plus"></i>
+                        Add New Product
+                    </a>
+                </div>
+
                 <div class="products-grid">
                     {%for product in products_infos%}
                         <div class="product-item">
