@@ -13,6 +13,7 @@ class Services:
   conta:str
   access_token:str
   refresh_token:str
+  api_url: str = "https://api.mercadolibre.com"
   id_user:str = None
   orders: list = None
 
@@ -28,7 +29,7 @@ class Services:
     print(f"Conta {self.conta}, Acess Token {self.access_token}, Refresh Token {self.refresh_token}")
 
   def infouser(self):
-    url = "https://api.mercadolibre.com/users/me"
+    url = f"{self.api_url}/users/me"
 
     payload = {}
     headers = {
@@ -50,7 +51,7 @@ class Services:
   
   def import_id_products(self):
     
-    url = f"https://api.mercadolibre.com/users/{self.id_user}/items/search"
+    url = f"{self.api_url}/users/{self.id_user}/items/search"
 
     payload = {}
     headers = {
@@ -70,7 +71,7 @@ class Services:
     products_info_list = []
 
     for product in products_id:
-      url = f"https://api.mercadolibre.com/items/{product}"
+      url = f"{self.api_url}/items/{product}"
 
       payload = {}
       headers = {
@@ -85,7 +86,7 @@ class Services:
   
   def import_info_product(self,product_id):
       
-      url = f"https://api.mercadolibre.com/items/{product_id}"
+      url = f"{self.api_url}/items/{product_id}"
 
       payload = {}
       headers = {
@@ -98,7 +99,7 @@ class Services:
       return product
   
   def import_description_product(self, product_id):
-      url = f"https://api.mercadolibre.com/items/{product_id}/description"
+      url = f"{self.api_url}/items/{product_id}/description"
 
       payload = {}
       headers = {
@@ -116,7 +117,7 @@ class Services:
 
       mime_type, _ = mimetypes.guess_type(new_product_img.filename)
 
-      url = "https://api.mercadolibre.com/pictures/items/upload"
+      url = f"{self.api_url}/pictures/items/upload"
 
       payload={}
       
@@ -134,7 +135,7 @@ class Services:
 
       data = response.json()
 
-      url = f"https://api.mercadolibre.com/items/{product_id}/pictures"
+      url = f"{self.api_url}/items/{product_id}/pictures"
       payload = json.dumps({
           "id": f"{data.get('id')}"
       })
@@ -148,7 +149,7 @@ class Services:
     
     if product_title != None:
 
-      url = f"https://api.mercadolibre.com/items/{product_id}"
+      url = f"{self.api_url}/items/{product_id}"
 
       payload = json.dumps({
         "title": f"{str(product_title)}"
@@ -161,7 +162,7 @@ class Services:
       response = requests.request("PUT", url, headers=headers, data=payload)
     
     if product_description != None:
-      url = f"https://api.mercadolibre.com/items/{product_id}/description"
+      url = f"{self.api_url}/items/{product_id}/description"
 
       payload = json.dumps({
         "plain_text": f"{product_description}"
@@ -175,7 +176,7 @@ class Services:
     
     if product_price != None:
 
-      url = f"https://api.mercadolibre.com/items/{product_id}"
+      url = f"{self.api_url}/items/{product_id}"
 
       payload = json.dumps({
         "price": float(product_price)
@@ -189,7 +190,7 @@ class Services:
     
     if product_condition != None:
 
-      url = f"https://api.mercadolibre.com/items/{product_id}"
+      url = f"{self.api_url}/items/{product_id}"
     
       payload = json.dumps({
         "condition": f"{str(product_condition)}"
@@ -204,7 +205,7 @@ class Services:
 
     if product_status != None:
 
-      url = f"https://api.mercadolibre.com/items/{product_id}"
+      url = f"{self.api_url}/items/{product_id}"
 
       payload = json.dumps({
         "status": f"{str(product_status)}"
@@ -218,7 +219,7 @@ class Services:
     
     if product_quantity != None:
 
-      url = f"https://api.mercadolibre.com/items/{product_id}"
+      url = f"{self.api_url}/items/{product_id}"
 
       payload = json.dumps({
         "available_quantity": f"{int(product_quantity)}"
@@ -237,7 +238,7 @@ class Services:
   
   def delete_image_product(self,product_id, img_id):
 
-    url = f"https://api.mercadolibre.com/items/{product_id}/pictures/{img_id}?access_token={self.access_token}"
+    url = f"{self.api_url}/items/{product_id}/pictures/{img_id}?access_token={self.access_token}"
 
     payload = {}
     headers = {}
@@ -246,7 +247,7 @@ class Services:
   
   def import_orders(self):
 
-    url = f"https://api.mercadolibre.com/orders/search?seller={self.id_user}&tags=mshops"
+    url = f"{self.api_url}/orders/search?seller={self.id_user}&tags=mshops"
 
     payload = {}
     headers = {
@@ -272,7 +273,7 @@ class Services:
 
   def import_categories(self):
 
-    url = "https://api.mercadolibre.com/sites/MLB/categories/all"
+    url = f"{self.api_url}/sites/MLB/categories/all"
 
     payload = ""
     headers = {}
@@ -303,7 +304,7 @@ class Services:
 
   def import_category_attributes(self,category_id):
 
-    url = f"https://api.mercadolibre.com/categories/{category_id}/attributes"
+    url = f"{self.api_url}/categories/{category_id}/attributes"
 
     payload = {}
     headers = {
@@ -317,7 +318,7 @@ class Services:
   def publi_product(self,title,category_id,price,avaible_quantity,condition,description, attributes):
 
 
-    url = "https://api.mercadolibre.com/items"
+    url = f"{self.api_url}/items"
 
     payload = json.dumps({
       "title": f"{title}",
