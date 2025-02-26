@@ -8,6 +8,17 @@
 </head>
 <body>
     <form action="/login" method="post">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
         <h1>Login</h1>
         <input type="email" name="email" placeholder="E-mail" required>
         <input type="password" name="password" placeholder="Senha" required>
@@ -15,5 +26,6 @@
         <button type="submit">Login</button>
     </form>
     
+
 </body>
 </html>

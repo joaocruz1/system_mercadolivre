@@ -33,7 +33,7 @@ class ProductsRoute:
         @self.blueprint.route('/new', methods=['POST'])
         @login_required
         def newproduct():
-
+ 
             if request.form['productSubcategory'] != "":
                 category = request.form['productSubcategory']
             else:
@@ -50,6 +50,7 @@ class ProductsRoute:
             name = request.form['productName']
             description = request.form['productDescription']
             price = request.form['productPrice']
+            
             condition = request.form['productCondition']
             avaiilable_quantity = request.form['productQuantity'] 
             attributes = self.services_api.import_category_attributes(category_id)

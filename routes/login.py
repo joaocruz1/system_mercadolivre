@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_login import login_user, logout_user
 from dataclasses import dataclass
 from services import Services
@@ -37,7 +37,9 @@ class LoginRoute:
 
                 # Valida se os campos foram enviados
                 if not shop_name or not email or not password:
-                    return jsonify({"error": "Todos os campos são obrigatórios"}), 400
+
+                    flash('Por favor, preencha todos os campos.', 'error')
+                    return redirect(url_for('login.login'))
 
                 # Busca a loja pelo nome
                 shop = Shop.get(Shop.name == shop_name)
@@ -56,15 +58,15 @@ class LoginRoute:
                     'user_shop': shop.name,
                     'shop_id': shop.id
                 }
-
                 return redirect(url_for('dashboard.dashboard'))
 
             except DoesNotExist:
-                return jsonify({"error": "Loja, e-mail ou senha incorretos"}), 400
+                flash('Credenciais inválidas. Por favor, verifique seu e-mail e senha.', 'error')
+                return redirect(url_for('login.login'))
 
             except Exception as e:
-                print(f"Erro inesperado: {e}")  # Depuração
-                return jsonify({"error": f"Erro no servidor: {str(e)}"}), 500
+                flash('Erro ao fazer login. Por favor, tente novamente mais tarde.', 'error')
+                return redirect(url_for('login.login'))
 
 
 
