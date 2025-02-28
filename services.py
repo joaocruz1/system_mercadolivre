@@ -113,140 +113,111 @@ class Services:
 
   def edit_infos_product(self,product_id,new_product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity):
 
-    if new_product_img != None:
-
-      mime_type, _ = mimetypes.guess_type(new_product_img.filename)
-
-      url = f"{self.api_url}/pictures/items/upload"
-
-      payload={}
-      
-      file_content = new_product_img.read()
-
-      files = [
-          ('file', (new_product_img.filename, file_content, str(mime_type)))
-      ]
-
-      headers = {
-          'Authorization': f'Bearer {self.access_token}'
-      }
-
-      response = requests.request("POST", url, headers=headers, files=files)
-
-      data = response.json()
-
-      url = f"{self.api_url}/items/{product_id}/pictures"
-      payload = json.dumps({
-          "id": f"{data.get('id')}"
-      })
-      headers = {
-          'Authorization': f'Bearer {self.access_token}',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-      }
-
-      response = requests.request("POST", url, headers=headers, data=payload)
+    url = f"{self.api_url}/items/{product_id}"
     
-    if product_title != None:
+    payload = {}
 
-      url = f"{self.api_url}/items/{product_id}"
-
-      payload = json.dumps({
-        "title": f"{str(product_title)}"
-      })
-      headers = {
+    if product_title is not None:
+        payload["title"] = str(product_title)
+    
+    if product_price is not None:
+        payload["price"] = float(product_price)
+    
+    if product_condition is not None:
+        payload["condition"] = str(product_condition)
+    
+    if product_status is not None:
+        payload["status"] = str(product_status)
+    
+    if product_quantity is not None:
+        payload["available_quantity"] = int(product_quantity)
+    
+    headers = {
         'Authorization': f'Bearer {self.access_token}',
         'Content-Type': 'application/json'
-      }
-
-      response = requests.request("PUT", url, headers=headers, data=payload)
+    }
     
-    if product_description != None:
-      url = f"{self.api_url}/items/{product_id}/description"
+    try:
+        if payload:
+            response = requests.request("PUT", url, headers=headers, data=json.dumps(payload))
+            if response.status_code != 200:
+                error_data = response.json()
+                return {"status": "error", "message": error_data.get("message", "Erro ao atualizar o produto.")}
+        
+        if product_description is not None:
+            description_url = f"{self.api_url}/items/{product_id}/description"
+            description_payload = json.dumps({
+                "plain_text": product_description
+            })
+            description_response = requests.request("PUT", description_url, headers=headers, data=description_payload)
+            if description_response.status_code != 200:
+                error_data = description_response.json()
+                return {"status": "error", "message": error_data.get("message", "Erro ao atualizar a descrição.")}
+        
+     
+        if new_product_img is not None:
+        
+            mime_type, _ = mimetypes.guess_type(new_product_img.filename)
+            upload_url = f"{self.api_url}/pictures/items/upload"
+            
+            file_content = new_product_img.read()
+            files = [
+                ('file', (new_product_img.filename, file_content, str(mime_type)))
+            ]
+            
+            upload_headers = {
+                'Authorization': f'Bearer {self.access_token}'
+            }
+            
+            upload_response = requests.request("POST", upload_url, headers=upload_headers, files=files)
+            data = upload_response.json()
 
-      payload = json.dumps({
-        "plain_text": f"{product_description}"
-      })
-      headers = {
-        'Authorization': f'Bearer {self.access_token}',
-        'Content-Type': 'application/json'
-      }
+            if upload_response.status_code not in [200, 201]: 
+                error_data = upload_response.json()
+                return {"status": "error", "message": error_data.get("message", "Erro ao fazer upload da imagem.")}
 
-      response = requests.request("PUT", url, headers=headers, data=payload)
+            associate_url = f"{self.api_url}/items/{product_id}/pictures"
+            associate_payload = json.dumps({
+                "id": data.get("id")
+            })
+            associate_headers = {
+                'Authorization': f'Bearer {self.access_token}',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+            
+            associate_response = requests.request("POST", associate_url, headers=associate_headers, data=associate_payload)
+            if associate_response.status_code not in [200,201]: 
+                error_data = associate_response.json()
+                return {"status": "error", "message": error_data.get("message", "Erro ao associar a imagem ao produto.")}
+
+        return {"status": "success", "message": "Produto atualizado com sucesso."}
     
-    if product_price != None:
+    except Exception as e:
+        return {"status": "error", "message": f"Erro ao processar a requisição: {str(e)}"}
 
-      url = f"{self.api_url}/items/{product_id}"
-
-      payload = json.dumps({
-        "price": float(product_price)
-      })
-      headers = {
-        'Authorization': f'Bearer {self.access_token}',
-        'Content-Type': 'application/json'
-      }
-
-      response = requests.request("PUT", url, headers=headers, data=payload)
     
-    if product_condition != None:
-
-      url = f"{self.api_url}/items/{product_id}"
-    
-      payload = json.dumps({
-        "condition": f"{str(product_condition)}"
-      })
-      headers = {
-        'Authorization': f'Bearer {self.access_token}',
-        'Content-Type': 'application/json'
-      }
-    
-      response = requests.request("PUT", url, headers=headers, data=payload)
-
-
-    if product_status != None:
-
-      url = f"{self.api_url}/items/{product_id}"
-
-      payload = json.dumps({
-        "status": f"{str(product_status)}"
-      })
-      headers = {
-        'Authorization': f'Bearer {self.access_token}',
-        'Content-Type': 'application/json'
-      }
-
-      response = requests.request("PUT", url, headers=headers, data=payload)
-    
-    if product_quantity != None:
-
-      url = f"{self.api_url}/items/{product_id}"
-
-      payload = json.dumps({
-        "available_quantity": f"{int(product_quantity)}"
-      })
-      headers = {
-        'Authorization': f'Bearer {self.access_token}',
-        'Content-Type': 'application/json'
-      }
-
-      response = requests.request("PUT", url, headers=headers, data=payload)
-    
-
-
-
-
   
   def delete_image_product(self,product_id, img_id):
 
-    url = f"{self.api_url}/items/{product_id}/pictures/{img_id}?access_token={self.access_token}"
+      url = f"{self.api_url}/items/{product_id}/pictures/{img_id}?access_token={self.access_token}"
 
-    payload = {}
-    headers = {}
+      payload = {}
+      headers = {}
 
-    response = requests.request("DELETE", url, headers=headers, data=payload)
+      try:
+        response = requests.request("DELETE", url, headers=headers, data=payload)
+        if response.status_code == 200:
+            return {"status": "success", "message": "Imagem deletada com sucesso."}
+        else:
+            error_data = response.json()
+            return {"status": "error", "message": error_data.get("message", "Erro ao deletar a imagem.")}
+      except Exception as e:
+        return {"status": "error", "message": f"Erro ao processar a requisição: {str(e)}"}
+    
   
   def import_orders(self):
-
+    
     url = f"{self.api_url}/orders/search?seller={self.id_user}&tags=mshops"
 
     payload = {}

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, request
+from flask import Blueprint, render_template, session, redirect, url_for, request, flash
 from flask_login import login_required
 from services import Services
 from dataclasses import dataclass
@@ -80,7 +80,8 @@ class ProductsRoute:
         @self.blueprint.route('<product_id>/<img_id>/delete')
         @login_required
         def imagedelete(product_id,img_id):
-            self.services_api.delete_image_product(product_id,img_id)
+            message = self.services_api.delete_image_product(product_id,img_id)
+            flash(message['message'], message['status'])
             
             return redirect(url_for('products.productedit',product_id = product_id))
 
@@ -88,42 +89,17 @@ class ProductsRoute:
         @self.blueprint.route('<product_id>/edit/uptade', methods=['POST'])
         @login_required
         def productupdate(product_id):
-        
-            product_img = request.files.get('products/newImageUpload', None)
 
+            product_img = request.files.get('newImageUpload', None)
+            
             product_title = request.form['productName']
             product_description = request.form['productDescription']
             product_price = request.form['productPrice']
             product_condition = request.form['productCondition']
             product_status = request.form.get('productStatus', None)
             product_quantity = request.form['productQuantity']
+            message = self.services_api.edit_infos_product(product_id, product_img, product_title, product_description, None, product_condition, product_status, None)
 
-            if product_img is None:
-                self.services_api.edit_infos_product(product_id, None, None, None, None, None, None, None)
-            else:
-                self.services_api.edit_infos_product(product_id, product_img, None, None, None, None, None, None)
-            
-            if not product_title and not product_description and not product_price and not product_condition and not product_status and not product_quantity:
-                self.services_api.edit_infos_product(product_id, None, None, None, None, None, None, None)
-
-            if product_title != "":
-                self.services_api.edit_infos_product(product_id, None, product_title, None, None, None, None, None)
-            
-            if product_description != "":
-                self.services_api.edit_infos_product(product_id, None, None, product_description, None, None, None, None)
-            
-            if product_price != "":
-                self.services_api.edit_infos_product(product_id, None, None, None, product_price, None, None, None)
-
-            if product_condition != "":
-                self.services_api.edit_infos_product(product_id, None, None, None, None, product_condition, None, None) 
-
-            if product_status != "":
-                self.services_api.edit_infos_product(product_id, None, None, None, None, None, product_status, None)
-
-            if product_quantity != "":
-                self.services_api.edit_infos_product(product_id, None, None, None, None, None, None, product_quantity) 
-            
-              
-
+            flash(message["message"], message["status"])
+                          
             return redirect(url_for('products.productedit', product_id=product_id))
