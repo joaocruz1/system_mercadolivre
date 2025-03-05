@@ -14,6 +14,7 @@ app.secret_key = 'system_ml$91873919'
 app.config['SESSION_TYPE'] = 'filesystem'  # Configuração de sessão
 Session(app)
 
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login.login'

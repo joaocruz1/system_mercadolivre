@@ -20,13 +20,14 @@ class Services:
   def __init__(self):
       
     token_refresh = TokenRefresh(spreadsheet_id)
-    tokens = token_refresh.token
+    tokens =  token_refresh.Auth_AccessToken()
 
     self.conta = tokens['conta']
     self.access_token = tokens['access_token']
     self.refresh_token = tokens['refresh_token']
 
-    print(f"Conta {self.conta}, Acess Token {self.access_token}, Refresh Token {self.refresh_token}")
+    print(self.refresh_token)
+
 
   def infouser(self):
     url = f"{self.api_url}/users/me"
@@ -40,7 +41,6 @@ class Services:
     data = response.json()
 
     self.id_user = data.get('id')
-    print(self.id_user)
     first_name = data.get('first_name')
     last_name = data.get('last_name')
     email = data.get('email')

@@ -5,6 +5,7 @@ db = SqliteDatabase('database.db', check_same_thread=False)
 
 class Shop(Model):
     name = CharField(unique=True)
+    refresh_token = CharField(unique=True)
 
     class Meta:
         database = db
