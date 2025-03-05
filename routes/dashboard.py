@@ -31,15 +31,15 @@ class DashboardRoute:
                     'adm/dashboard_adm.html', 
                     userinfo_ml=userinfo_ml, 
                     amount_products=amount_products, 
-                    userinfo=userinfo,
-                    amount_orders=amount_orders
+                    amount_orders=amount_orders,
+                    userinfo=userinfo
                 )
             
             else:
                 return render_template('dashboard.html', 
                     userinfo_ml=userinfo_ml, 
-                    quantity_products=amount_products, 
-                    quantity_orders=amount_orders,
+                    amount_products=amount_products, 
+                    amount_orders=amount_orders,
                     userinfo=userinfo
                     )
 

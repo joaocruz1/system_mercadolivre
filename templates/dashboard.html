@@ -11,11 +11,14 @@
     <div class="dashboard-container">
         <!-- Menu lateral -->
         <aside class="sidebar">
-            <h2>Panel</h2>
+            <h2>Admin Panel</h2>
             <nav>
                 <ul>
                     <li><a href="{{ url_for('dashboard.dashboard')}}"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    {%if userinfo['user_adm']%}
+                    <li><a href="{{ url_for('users.users') }}"><i class="fas fa-users"></i> Users</a></li>
+                    {% endif %}
                     <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
                     <li><a href="{{ url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
@@ -35,14 +38,14 @@
             <!-- Cards -->
             <section class="cards">
                 <a href="{{url_for('products.products')}}">
-                    <div class="card">
-                        <h3>Total Products</h3>
-                        <p>{{amount_products}}</p>
-                        <span class="card-icon"><i class="fas fa-dollar-sign"></i></span>
-                    </div>
+                <div class="card">
+                    <h3>Total Products</h3>
+                    <p>{{amount_products}}</p>
+                    <span class="card-icon"><i class="fas fa-dollar-sign"></i></span>
+                </div>
                 </a>
                 <div class="card">
-                    <h3>Ordes</h3>
+                    <h3>Orders</h3>
                     <p>{{amount_orders}}</p>
                     <span class="card-icon"><i class="fas fa-user-plus"></i></span>
                 </div>
