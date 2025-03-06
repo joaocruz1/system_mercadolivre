@@ -89,7 +89,6 @@ class ProductsRoute:
         @self.blueprint.route('<product_id>/edit/uptade', methods=['POST'])
         @login_required
         def productupdate(product_id):
-
             product_img = request.files.get('newImageUpload', None)
             
             product_title = request.form['productName']
@@ -98,8 +97,13 @@ class ProductsRoute:
             product_condition = request.form['productCondition']
             product_status = request.form.get('productStatus', None)
             product_quantity = request.form['productQuantity']
-            message = self.services_api.edit_infos_product(product_id, product_img, product_title, product_description, None, product_condition, product_status, None)
+
+            if product_img is not None and product_img.filename == '':
+                product_img = None  
+
+            message = self.services_api.edit_infos_product(
+                product_id, product_img, product_title, product_description, product_price, product_condition, product_status, product_quantity
+            )
 
             flash(message["message"], message["status"])
-                          
             return redirect(url_for('products.productedit', product_id=product_id))

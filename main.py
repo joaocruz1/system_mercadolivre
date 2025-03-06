@@ -6,7 +6,7 @@ from routes.dashboard import DashboardRoute
 from routes.users import UsersRoute
 from routes.products import ProductsRoute
 from services import Services
-from database import db, User, Shop
+from database import db, User
 
 # Inicializa o aplicativo Flask
 app = Flask(__name__)

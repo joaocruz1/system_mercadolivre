@@ -6,7 +6,7 @@ from database import Shop
 @dataclass
 class TokenRefresh:
 
-    acess_token: str = None
+
     refresh_token: str = Shop.get(Shop.id == 1).refresh_token
 
 

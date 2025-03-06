@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from token_refresh import TokenRefresh
-from data.dataid import spreadsheet_id
 from database import Shop
 import mimetypes
 import requests
@@ -19,7 +18,7 @@ class Services:
 
   def __init__(self):
       
-    token_refresh = TokenRefresh(spreadsheet_id)
+    token_refresh = TokenRefresh()
     tokens =  token_refresh.Auth_AccessToken()
 
     self.conta = tokens['conta']
@@ -140,7 +139,7 @@ class Services:
     try:
         if payload:
             response = requests.request("PUT", url, headers=headers, data=json.dumps(payload))
-            if response.status_code != 200:
+            if response.status_code not in [200, 201]:
                 error_data = response.json()
                 return {"status": "error", "message": error_data.get("message", "Erro ao atualizar o produto.")}
         
@@ -187,17 +186,16 @@ class Services:
             }
             
             associate_response = requests.request("POST", associate_url, headers=associate_headers, data=associate_payload)
+
             if associate_response.status_code not in [200,201]: 
                 error_data = associate_response.json()
                 return {"status": "error", "message": error_data.get("message", "Erro ao associar a imagem ao produto.")}
 
         return {"status": "success", "message": "Produto atualizado com sucesso."}
     
-    except Exception as e:
+    except Exception as e:  
         return {"status": "error", "message": f"Erro ao processar a requisição: {str(e)}"}
 
-    
-  
   def delete_image_product(self,product_id, img_id):
 
       url = f"{self.api_url}/items/{product_id}/pictures/{img_id}?access_token={self.access_token}"
@@ -215,7 +213,6 @@ class Services:
       except Exception as e:
         return {"status": "error", "message": f"Erro ao processar a requisição: {str(e)}"}
     
-  
   def import_orders(self):
     
     url = f"{self.api_url}/orders/search?seller={self.id_user}&tags=mshops"
@@ -237,7 +234,6 @@ class Services:
       orders_id.append(order.get('id'))
 
     return orders_amount
-
 
   def import_feedbacks(self,orders_id):
     pass
