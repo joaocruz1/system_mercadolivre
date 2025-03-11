@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Control System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="home-container">
+        <!-- Header -->
+        <header class="home-header">
+            <div class="header-content">
+                <h1>Transform Your <span>Ecommerce Business</span></h1>
+                <p>Take control of your online store with our powerful and intuitive tools designed to streamline operations and boost sales.</p>
+                <div class="header-buttons">
+                    <a href="{{ url_for('login.login') }}" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <a href="" class="btn btn-register">
+                        <i class="fas fa-user-plus"></i> Get Started
+                    </a>
+                </div>
+            </div>
+
+        </header>
+
+        <!-- Main Content -->
+        <main class="home-main">
+            <!-- About Section -->
+            <section class="about-section">
+                <h2>Why Choose Us?</h2>
+                <div class="about-cards">
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h3>Product Management</h3>
+                        <p>Easily manage your products, inventory, and categories with our intuitive tools.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Real-Time Analytics</h3>
+                        <p>Track sales, orders, and customer behavior with real-time analytics.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>Customization</h3>
+                        <p>Customize your store to match your brand and business needs.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <h2>Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3>Order Tracking</h3>
+                        <p>Track orders from placement to delivery seamlessly.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Customer Management</h3>
+                        <p>Manage customer data and interactions effectively.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <h3>Promotions</h3>
+                        <p>Create and manage discounts and promotional campaigns.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Security</h3>
+                        <p>Ensure your data is safe with advanced security features.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action Section -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2>Ready to Get Started?</h2>
+                    <p>Join thousands of businesses already using our system to grow their online presence.</p>
+                    <div class="cta-buttons">
+                        <a href="" class="btn btn-register">
+                            <i class="fas fa-user-plus"></i> Sign Up Now
+                        </a>
+                        <a href="{{ url_for('login.login') }}" class="btn btn-login">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="home-footer">
+            <div class="footer-content">
+                <p>&copy; 2025 NextLayer Control System. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/joaovcruz1/"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.linkedin.com/in/joao-cruz-604b3b2b5/"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

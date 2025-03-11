@@ -1,6 +1,7 @@
 from flask import Flask, g, session
 from flask_login import LoginManager
 from flask_session import Session
+from routes.home import HomeRoute
 from routes.login import LoginRoute
 from routes.dashboard import DashboardRoute
 from routes.users import UsersRoute
@@ -51,6 +52,7 @@ def teardown_request(exception):
         db.close()
 
 # Registra as rotas usando blueprints
+app.register_blueprint(HomeRoute().blueprint, url_prefix="/")
 app.register_blueprint(LoginRoute( services_api=services_api).blueprint, url_prefix="/login")
 app.register_blueprint(DashboardRoute(services_api=services_api).blueprint, url_prefix="/dashboard")
 app.register_blueprint(UsersRoute().blueprint, url_prefix="/users")

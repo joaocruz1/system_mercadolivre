@@ -27,7 +27,6 @@ class Services:
 
     print(self.refresh_token)
 
-
   def infouser(self):
     url = f"{self.api_url}/users/me"
 
