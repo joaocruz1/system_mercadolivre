@@ -25,7 +25,7 @@ class Services:
     self.access_token = tokens['access_token']
     self.refresh_token = tokens['refresh_token']
 
-    print(self.refresh_token)
+    print(self.access_token)
 
   def infouser(self):
     url = f"{self.api_url}/users/me"
@@ -109,7 +109,7 @@ class Services:
 
       return data
 
-  def edit_infos_product(self,product_id,new_product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity):
+  def edit_infos_product(self,product_id,new_product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity,new_product_thumbnail):
 
     url = f"{self.api_url}/items/{product_id}"
     
@@ -130,6 +130,7 @@ class Services:
     if product_quantity is not None:
         payload["available_quantity"] = int(product_quantity)
     
+
     headers = {
         'Authorization': f'Bearer {self.access_token}',
         'Content-Type': 'application/json'

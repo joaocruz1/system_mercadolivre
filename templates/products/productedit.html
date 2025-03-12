@@ -41,17 +41,7 @@
                         <h2>Product Thumbnail</h2>
                         <div class="thumbnail-container">
                             <img src="{{ product.thumbnail }}" alt="Product Thumbnail" class="thumbnail-image">
-                            <div class="thumbnail-buttons">
-                                <button type="button" class="action-button edit-button" onclick="openThumbnailModal()">
-                                    <i class="fas fa-edit"></i> Change
-                                </button>
-                                <a href="{{url_for('products.imagedelete', product_id=product.id, img_id=product.thumbnail_id)}}" class="action-button delete-button">
-                                    <i class="fas fa-trash"></i> Delete
-                                </a>
-                            </div>
                         </div>
-                        <!-- Campo oculto para o ID da nova thumbnail -->
-                        <input type="hidden" id="newThumbnailId" name="newThumbnailId">
                     </div>
 
                     <!-- Modal para seleção de thumbnail -->
@@ -153,27 +143,6 @@
             }
         }
 
-                // Função para abrir o modal de seleção de thumbnail
-                function openThumbnailModal() {
-            document.getElementById('thumbnailModal').style.display = 'block';
-        }
-
-        // Função para fechar o modal de seleção de thumbnail
-        function closeThumbnailModal() {
-            document.getElementById('thumbnailModal').style.display = 'none';
-        }
-
-        // Função para selecionar uma imagem como thumbnail
-        function selectThumbnail(imageId, imageUrl) {
-            // Atualiza o campo oculto com o ID da imagem selecionada
-            document.getElementById('newThumbnailId').value = imageId;
-
-            // Atualiza a imagem de thumbnail exibida
-            document.querySelector('.thumbnail-image').src = imageUrl;
-
-            // Fecha o modal
-            closeThumbnailModal();
-        }
     </script>
 </body>
 </html>

@@ -101,8 +101,9 @@ class ProductsRoute:
             if product_img is not None and product_img.filename == '':
                 product_img = None  
 
+
             message = self.services_api.edit_infos_product(
-                product_id, product_img, product_title, product_description, product_price, product_condition, product_status, product_quantity
+                product_id, product_img, product_title, product_description, product_price, product_condition, product_status, product_quantity, product_thumbnail
             )
 
             flash(message["message"], message["status"])
