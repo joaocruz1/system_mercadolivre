@@ -109,7 +109,7 @@ class Services:
 
       return data
 
-  def edit_infos_product(self,product_id,new_product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity,new_product_thumbnail):
+  def edit_infos_product(self,product_id,new_product_img,product_title,product_description,product_price,product_condition,product_status,product_quantity):
 
     url = f"{self.api_url}/items/{product_id}"
     

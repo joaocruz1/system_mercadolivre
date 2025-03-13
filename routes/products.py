@@ -94,6 +94,7 @@ class ProductsRoute:
             product_title = request.form['productName']
             product_description = request.form['productDescription']
             product_price = request.form['productPrice']
+            
             product_condition = request.form['productCondition']
             product_status = request.form.get('productStatus', None)
             product_quantity = request.form['productQuantity']
@@ -103,7 +104,7 @@ class ProductsRoute:
 
 
             message = self.services_api.edit_infos_product(
-                product_id, product_img, product_title, product_description, product_price, product_condition, product_status, product_quantity, product_thumbnail
+                product_id, product_img, product_title, product_description, product_price, product_condition, product_status, product_quantity
             )
 
             flash(message["message"], message["status"])
