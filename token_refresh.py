@@ -21,6 +21,8 @@ class TokenRefresh:
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
+        
+
         Shop.update(refresh_token=response.json().get('refresh_token')).where(Shop.id == 1).execute()
 
         return {
